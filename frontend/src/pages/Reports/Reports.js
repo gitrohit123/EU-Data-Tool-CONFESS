@@ -17,7 +17,7 @@ function Reports() {
         const email = localStorage.getItem('email');
 
         if (email) {
-            fetch(`https://confess-data-tool-backend.vercel.app/api/dashboard?email=${email}`)
+            fetch(`https://confess-data-tool-backend-beta.vercel.app/api/dashboard?email=${email}`)
                 .then(response => response.json())
                 .then(data => {
                     setUsers(data.users);

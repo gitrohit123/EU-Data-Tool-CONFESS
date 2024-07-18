@@ -26,7 +26,7 @@ function SignupPage() {
         setError('');
         setSuccess('');
         try {
-            const response = await axios.post('https://confess-data-tool-backend.vercel.app/api/users/register', {
+            const response = await axios.post('https://confess-data-tool-backend-beta.vercel.app/api/users/register', {
                 name,
                 companyName,
                 email,

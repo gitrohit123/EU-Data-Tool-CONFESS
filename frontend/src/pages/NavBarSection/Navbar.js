@@ -14,7 +14,7 @@ function NavSection() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/users`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/users`);
                 if (response.ok) {
                     const data = await response.json();
                     setUsers(data);
@@ -31,7 +31,7 @@ function NavSection() {
     useEffect(() => {
         const fetchAdmins = async () => {
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/admin`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/admin`);
                 if (response.ok) {
                     const data = await response.json();
                     setAdmins(data);

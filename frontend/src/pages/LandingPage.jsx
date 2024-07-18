@@ -11,7 +11,7 @@ function LandingPage() {
     useEffect(() => {
         const fetchAssessments = async () => {
             try {
-                const response = await fetch('https://confess-data-tool-backend.vercel.app/api/assessments');
+                const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/assessments');
                 if (response.ok) {
                     const data = await response.json();
                     setAssessments(data);

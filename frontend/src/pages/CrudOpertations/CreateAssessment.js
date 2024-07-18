@@ -21,7 +21,7 @@ function CreateAssessment() {
         };
 
         try {
-            const response = await fetch('https://confess-data-tool-backend.vercel.app/api/assessments', {
+            const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/assessments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

@@ -17,7 +17,7 @@ function UpdateAssessment() {
         const fetchAssessment = async () => {
             console.log(`Fetching assessment with ID: ${id}`);
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}`);
                 if (response.ok) {
                     const data = await response.json();
                     setAssessment(data);
@@ -75,7 +75,7 @@ function UpdateAssessment() {
 
     const deleteQuestion = async (questionId) => {
         try {
-            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${assessment._id}/questions/${questionId}`, {
+            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${assessment._id}/questions/${questionId}`, {
                 method: 'DELETE',
             });
 
@@ -162,7 +162,7 @@ const EditDetails = ({ examName, examCategory, assessmentId }) => {
     const handleSave = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`https://confess-data-tool-backend.vercel.app/${assessmentId}`, {
+            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/${assessmentId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -243,7 +243,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     useEffect(() => {
         const fetchExamDetails = async () => {
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}`);
                 if (response.ok) {
                     const data = await response.json();
                     setExamDetails({ examName: data.examName, examCategory: data.examCategory });
@@ -282,7 +282,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
 
         try {
             const response = editingQuestion ?
-                await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}/questions/${editingQuestion._id}`, {
+                await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}/questions/${editingQuestion._id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -290,7 +290,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                     body: JSON.stringify(newQuestion),
                 })
                 :
-                await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}/questions`, {
+                await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}/questions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
