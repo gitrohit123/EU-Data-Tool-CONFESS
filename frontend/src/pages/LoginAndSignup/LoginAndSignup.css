@@ -1,0 +1,105 @@
+.loginandsignup-main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.loginandsignup form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.login-input1,
+.login-input2,
+.login-input3,
+.login-input4 {
+    border: 2px solid rgba(0, 0, 0, 0.211);
+    border-radius: 10px;
+    height: 55px;
+    width: 400px;
+    color: black;
+    font-size: 14px;
+    padding-left: 20px;
+    outline: none;
+    padding-top: 10px;
+    background-color: rgba(0, 255, 255, 0);
+}
+
+.login-input1:focus,
+.login-input2:focus,
+.login-input3:focus,
+.login-input4:focus {
+    border: 2px solid rgba(27, 27, 27, 0.485);
+}
+
+.login-input1:focus+label,
+.login-input2:focus+label,
+.login-input3:focus+label,
+.login-input4:focus+label,
+.input-wrap.has-value label {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.479);
+    top: 4px;
+    left: 10px;
+    padding: 0px 5px 0px 5px;
+}
+
+.input-wrap label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.442);
+    padding: 14px;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.input-wrap {
+    position: relative;
+    width: auto;
+    height: auto;
+}
+
+.clear-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.clear-button:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.create-buttons>.disabled-button {
+    background-color: rgba(245, 245, 220, 0);
+    color: rgba(0, 0, 0, 0.215);
+    cursor: not-allowed;
+}
+
+.input-close-icon {
+    width: 15px;
+}
+
+.btn-signup {
+    border: 2px solid #006FEE;
+    padding: 7px 10px;
+    color: #006FEE;
+    border-radius: 10px;
+}
+
+.btn-signup:hover {
+    background-color: #006FEE;
+    color: white;
+}

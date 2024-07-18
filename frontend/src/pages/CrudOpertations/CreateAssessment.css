@@ -1,0 +1,110 @@
+.create-buttons {
+    display: flex;
+    width: 262px;
+    justify-content: start;
+    margin-left: 100px;
+    margin-top: 30px;
+    padding: 5px;
+    gap: 10px;
+    border: 2px solid black;
+    border-radius: 15px;
+}
+
+.create-buttons>button {
+    padding: 7px 10px;
+    border: 0px;
+    border-radius: 12px;
+    background-color: rgba(245, 245, 220, 0);
+    color: rgba(0, 0, 0, 0.215);
+}
+
+.create-buttons>.active {
+    background-color: rgb(54, 54, 54);
+    color: white;
+}
+
+.form-create {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.form-create form {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input1,
+.input2 {
+    border: 2px solid rgba(0, 0, 0, 0.802);
+    border-radius: 10px;
+    height: 55px;
+    width: 400px;
+    color: black;
+    font-size: 14px;
+    padding-left: 20px;
+    outline: none;
+    padding-top: 10px;
+    background-color: rgba(0, 255, 255, 0);
+}
+
+.input1:focus {
+    border: 2px solid white;
+}
+
+.input1:focus+label,
+.input2:focus+label,
+.input-wrap.has-value label {
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.263);
+    top: 4px;
+    left: 10px;
+    padding: 0px 5px 0px 5px;
+}
+
+.input-wrap label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.442);
+    padding: 14px;
+    position: absolute;
+    top: 4px;
+    left: 0;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.input-wrap {
+    position: relative;
+    width: auto;
+    height: auto;
+}
+
+.clear-button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.clear-button:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.create-buttons>.disabled-button {
+    background-color: rgba(245, 245, 220, 0);
+    color: rgba(0, 0, 0, 0.215);
+    cursor: not-allowed;
+}
+
+.input-close-icon {
+    width: 15px;
+
+}

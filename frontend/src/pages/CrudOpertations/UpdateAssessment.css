@@ -1,0 +1,294 @@
+.add-question-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    /* overflow: scroll; */
+    scroll-behavior: smooth;
+    top: 0;
+    background-color: #18181b83;
+    color: white;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.form-input {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.form-input form {
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    background-color: #18181B;
+    padding: 40px 40px;
+    border-radius: 20px;
+    height: 800px;
+    z-index: 10000;
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+
+.form-input form::-webkit-scrollbar {
+    display: none;
+}
+
+.form-input form {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.input-1,
+.input-3,
+.input-4,
+.input-5,
+.option-input-1,
+.option-input-2,
+.option-input-3,
+.option-input-4,
+.option-input-5,
+.option-input-6 {
+    border: 2px solid rgba(255, 255, 255, 0.237);
+    border-radius: 10px;
+    height: 40px;
+    width: 450px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    outline: none;
+    padding-top: 10px;
+    background-color: rgba(0, 255, 255, 0);
+}
+
+.input-2 {
+    border: 2px solid rgba(255, 255, 255, 0.237);
+    border-radius: 10px;
+    height: 150px;
+    width: 450px;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
+    outline: none;
+    padding-top: 20px;
+    background-color: rgba(0, 255, 255, 0);
+}
+
+
+.input-1:focus,
+.input-2:focus,
+.input-3:focus,
+.input-4:focus,
+.input-5:focus,
+.option-input-1:focus,
+.option-input-2:focus,
+.option-input-3:focus,
+.option-input-4:focus,
+.option-input-5:focus,
+.option-input-6:focus {
+    border: 2px solid rgba(255, 255, 255, 0.505);
+}
+
+.input-1:focus+label,
+.input-2:focus+label,
+.input-3:focus+label,
+.input-4:focus+label,
+.input-5:focus+label,
+.option-input-1:focus+label,
+.option-input-2:focus+label,
+.option-input-3:focus+label,
+.option-input-4:focus+label,
+.option-input-5:focus+label,
+.option-input-6:focus+label,
+.input-wraps.has-values label {
+    font-size: 7px;
+    color: rgb(255, 255, 255);
+    top: 4px;
+    left: 10px;
+    padding: 0px 5px 0px 5px;
+}
+
+
+
+
+.msq-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.input-wraps label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.442);
+    padding: 14px;
+    position: absolute;
+    top: -3px;
+    left: 2px;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.msq-options label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.442);
+    padding: 14px;
+    position: absolute;
+    top: -1px;
+    left: 10px;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.input-wraps {
+    position: relative;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+}
+
+.form-input select {
+    background-color: #18181B;
+    font-size: 12px;
+
+}
+
+.form-input option {
+    font-size: 12px;
+    border-radius: 10px;
+    background-color: #18181B;
+    padding: 10px !important;
+}
+
+.form-input option:hover {
+    background-color: #aeaebe;
+}
+
+.clear-buttons {
+    background: none;
+    border: none;
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.clear-button:hover {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.create-buttons>.disabled-button {
+    background-color: rgba(245, 245, 220, 0);
+    color: rgba(0, 0, 0, 0.215);
+    cursor: not-allowed;
+}
+
+
+.Edit-buttons {
+    position: relative;
+    padding: 7px;
+    border: 2px solid #454545cd !important;
+    border-radius: 10px;
+    margin: 5px;
+    max-width: 260px;
+    display: flex;
+    gap: 10px;
+}
+
+.Edit-buttons .slider {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: calc(50% - 7px);
+    height: calc(100% - 14px);
+    border-radius: 10px;
+    background-color: #363636;
+    transition: transform 0.3s ease;
+    z-index: 0;
+}
+
+.Edit-buttons .left {
+    transform: translateX(0);
+}
+
+.Edit-buttons .right {
+    transform: translateX(calc(100%));
+}
+
+.Edit-buttons button {
+    position: relative;
+    z-index: 0;
+    flex: 1;
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    background-color: #17c96400;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.Edit-buttons button.active {
+    color: white;
+}
+
+
+.input-close-icons {
+    width: 15px;
+    color: white;
+}
+
+.btn-closes {
+    border: 2px solid #F31260;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #F31260;
+    background-color: #17c96400;
+    transition: background-color 0.3s ease;
+}
+
+.btn-closes:hover {
+    background-color: #F31260;
+    color: white;
+}
+
+.btn-saves {
+    border: 2px solid #17C964;
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #17c96400;
+    color: #17C964;
+    transition: background-color 0.3s ease;
+}
+
+.btn-saves:hover {
+    background-color: #17C964;
+    color: black;
+}
+
+
+.btn-add-option {
+    border: 2px solid #36363600;
+    background-color: #e2e6e696;
+    border-radius: 10px;
+    padding: 8px;
+
+    font-size: 12px;
+    color: white;
+}
+
+.btn-add-option:hover {
+    background-color: #363636;
+}

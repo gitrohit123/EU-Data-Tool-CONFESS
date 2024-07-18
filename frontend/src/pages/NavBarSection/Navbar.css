@@ -1,0 +1,17 @@
+.navbar {
+    background-color: #3F4142;
+    padding: 0px !important;
+}
+
+.navbar-brand {
+    padding: 0px !important;
+}
+
+.nav-link {
+    color: #dae4e9 !important;
+}
+
+.btn-group {
+    position: absolute;
+    right: 100px;
+}

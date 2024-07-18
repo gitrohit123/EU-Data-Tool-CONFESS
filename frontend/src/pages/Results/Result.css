@@ -1,0 +1,20 @@
+.view-exam-icon {
+    margin: 5px;
+    border: 1px solid rgba(119, 119, 119, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.view-answer-link {
+    text-decoration: none;
+    color: rgba(225, 249, 254, 0.471);
+}
+
+.view-answer-link:hover {
+    background-color: none;
+    color: rgba(255, 255, 255, 0.578);
+}

@@ -1,0 +1,227 @@
+.reports-main {
+    max-width: 800px;
+}
+
+.section-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card-reports {
+    border-radius: 20px;
+}
+
+.card-stats {
+    border-radius: 20px;
+    width: 380px;
+}
+
+.card-stats p {
+    font-size: 14px;
+}
+
+.circle {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-progress {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(#C4C4C4 15% 30%, #394D2C 0% 15%, #6CC784 30% 100%);
+}
+
+.circle-progress::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    /* Adjust based on the size of the inner circle */
+    left: 10px;
+    /* Adjust based on the size of the inner circle */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+
+
+
+.green-dot {
+    background-color: #6CC784;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.dark-dot {
+    background-color: #2B522F;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.grey-dot {
+    background-color: #A4A5A7;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+.orage-dot {
+    background-color: #FC7C54;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.darkgreen-dot {
+    background-color: #34A474;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.darkgrey-dot {
+    background-color: #7F7F7F;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+/* Popup */
+
+.Dash-pop {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6161616d;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+}
+
+.Dash-pop>section {
+    width: 600px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    text-align: start;
+    border-radius: 15px;
+}
+
+.Dash-pop>section>p {
+    margin-top: 20px;
+}
+
+.Dash-pop>section>form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-turnover,
+.input-capex,
+.input-opex,
+.input-totalact {
+    border: 2px solid rgba(255, 255, 255, 0.237);
+    border-radius: 10px;
+    height: 40px;
+    width: 240px;
+    margin: 10px;
+    color: rgb(14, 14, 14);
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    outline: none;
+    padding-top: 10px;
+    background-color: rgba(61, 61, 61, 0.068);
+    position: relative;
+}
+
+.input-turnover:focus,
+.input-capex:focus,
+.input-opex:focus,
+.input-totalact:focus {
+    border: 2px solid rgba(0, 0, 0, 0.853);
+}
+
+.input-turnover:focus+label,
+.input-capex:focus+label,
+.input-opex:focus+label,
+.input-totalact:focus+label,
+.input-wraps-dash .has-values label {
+    font-size: 7px;
+    color: rgba(0, 0, 0, 0.575);
+    top: 15px;
+    left: 12px;
+    padding: 0px 5px 0px 5px;
+}
+
+.input-wraps-dash {
+    position: relative;
+    width: auto;
+    height: auto;
+    border-radius: 10px;
+}
+
+.input-wraps-dash>label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.633);
+    padding: 14px;
+    position: absolute;
+    top: -5px;
+    left: 10px;
+    pointer-events: none;
+    transition: 0.3s ease all;
+}
+
+.euro-signs {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.529);
+    right: 322px;
+    top: 20px;
+}
+
+.Dash-submit-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    margin: 10px;
+}
+
+.Dash-submit-buttons .btn {
+    border-radius: 10px;
+}

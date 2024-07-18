@@ -1,0 +1,17 @@
+.numerical {
+    position: relative;
+}
+
+.numerical .input-4 {
+    color: black !important;
+    font-weight: 500;
+    padding-right: 40px !important;
+    padding-top: 2px;
+}
+
+.euro-sign {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.529);
+    right: 20px;
+    top: 10px;
+}

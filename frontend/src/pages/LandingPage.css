@@ -1,0 +1,109 @@
+.Landing-main img {
+    max-width: 200px;
+    min-width: none;
+    background-color: #93999c;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.landing-page {
+    background-color: #E2E6E6;
+}
+
+.landing-main {
+    max-width: 1700px;
+    padding: 0px !important;
+}
+
+.activity-text {
+    color: #000000;
+    font-weight: 300;
+}
+
+.landing-main .btn-2 {
+    margin-top: 10px;
+    background-color: rgba(250, 235, 215, 0);
+    color: white;
+    border: 2px solid rgba(128, 128, 128, 0.366);
+    padding: 7px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    /* Smooth transition for background-color */
+}
+
+.landing-main .btn-2:hover {
+    background-color: #3F3F46;
+}
+
+.landing-main .card-text {
+    max-width: 500px;
+}
+
+
+.landing-main .cards-main {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+    justify-content: center;
+    align-items: start;
+    margin-top: 50px;
+}
+
+.card-text {
+    font-weight: 300;
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}
+
+.landing-main .card {
+    width: 100%;
+    max-width: 550px;
+    min-height: 250px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #18181B;
+    border-radius: 15px;
+    color: #dae4e9;
+    margin: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: wrap-animation 0.5s ease-in-out forwards;
+}
+
+.card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Continue this pattern for additional cards */
+
+.landing-main .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+}
+
+@keyframes wrap-animation {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .landing-main .card {
+        max-width: 100%;
+    }
+}
