@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb+srv://rohitravi47:rohitravi47@mern.myhidt7.mongodb.net/?retryWrites=true&w=majority&appName=mern', {
+        await mongoose.connect('mongodb+srv://lokeshkutty:92INCH0sjSAXRjeR@cluster0.lnrelam.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
             // useNewUrlParser: true,
             // useUnifiedTopology: true,
             // serverSelectionTimeoutMS: 10000, // Set timeout for server selection

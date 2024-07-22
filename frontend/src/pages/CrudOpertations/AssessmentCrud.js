@@ -11,7 +11,7 @@ function AssessmentCrud() {
     useEffect(() => {
         const fetchAssessments = async () => {
             try {
-                const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/assessments');
+                const response = await fetch('https://confess-data-tool-backend.vercel.app/api/assessments');
                 if (response.ok) {
                     const data = await response.json();
                     setAssessments(data);
@@ -33,7 +33,7 @@ function AssessmentCrud() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}`, {
+            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {
@@ -62,14 +62,16 @@ function AssessmentCrud() {
                         <tr className="Crud-thead-wrapper">
                             <th scope="col" className='text-start'>Name</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Language</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {assessments.map((assessment) => (
                             <tr key={assessment._id}>
-                                <td className='w-75 text-start'>{assessment.examName}</td>
+                                <td className='w-50 text-start'>{assessment.examName}</td>
                                 <td>{assessment.examCategory}</td>
+                                <td>{assessment.language}</td>
                                 <td>
                                     <FontAwesomeIcon
                                         onClick={() => handleUpdate(assessment)}

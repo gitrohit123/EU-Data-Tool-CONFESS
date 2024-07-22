@@ -17,7 +17,7 @@ function UpdateAssessment() {
         const fetchAssessment = async () => {
             console.log(`Fetching assessment with ID: ${id}`);
             try {
-                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}`);
+                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}`);
                 if (response.ok) {
                     const data = await response.json();
                     setAssessment(data);
@@ -75,7 +75,7 @@ function UpdateAssessment() {
 
     const deleteQuestion = async (questionId) => {
         try {
-            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${assessment._id}/questions/${questionId}`, {
+            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${assessment._id}/questions/${questionId}`, {
                 method: 'DELETE',
             });
 
@@ -104,7 +104,7 @@ function UpdateAssessment() {
                     <button className={question ? 'active' : ''} onClick={showQuestions}>Questions</button>
                 </section>
 
-                {exam && <EditDetails examName={assessment.examName} examCategory={assessment.examCategory} assessmentId={assessment._id} />}
+                {exam && <EditDetails examName={assessment.examName} examCategory={assessment.examCategory} languageselected={assessment.language} assessmentId={assessment._id} />}
                 {question &&
                     <>
                         <div className='d-flex container justify-content-end'>
@@ -151,9 +151,10 @@ function UpdateAssessment() {
 
 export default UpdateAssessment;
 
-const EditDetails = ({ examName, examCategory, assessmentId }) => {
+const EditDetails = ({ examName, examCategory, languageselected, assessmentId }) => {
     const [name1, setName1] = useState(examName);
     const [name2, setName2] = useState(examCategory);
+    const [language, setLanguage] = useState(languageselected);
     const navigate = useNavigate();
 
     const clearInput1 = () => setName1('');
@@ -162,24 +163,26 @@ const EditDetails = ({ examName, examCategory, assessmentId }) => {
     const handleSave = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/${assessmentId}`, {
+            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${assessmentId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ examName: name1, examCategory: name2 }),
+                body: JSON.stringify({ examName: name1, examCategory: name2, language: language }),
             });
 
             if (response.ok) {
                 alert('Assessment updated successfully');
                 navigate('/assessment');
             } else {
-                console.error('Failed to update assessment');
+                const errorData = await response.json();
+                console.error('Failed to update assessment:', errorData.message);
             }
         } catch (error) {
             console.error('Error updating assessment:', error);
         }
     };
+
 
     return (
         <>
@@ -201,6 +204,7 @@ const EditDetails = ({ examName, examCategory, assessmentId }) => {
                             )}
                         </div>
 
+
                         <div className={`input-wrap ${name2 ? 'has-value' : ''}`}>
                             <input
                                 type='text'
@@ -216,6 +220,17 @@ const EditDetails = ({ examName, examCategory, assessmentId }) => {
                             )}
                         </div>
 
+                        <div className={`input-wrap ${language ? 'has-value' : ''}`}>
+                            <select className='input3' value={language} onChange={(e) => setLanguage(e.target.value)}>
+                                <option className='d-none text-secondary' value=""></option>
+                                <option value="english">English</option>
+                                <option value="german">German</option>
+                            </select>
+                            <label className='text-secondary'>Language <span className='text-danger'>*</span></label>
+                        </div>
+
+
+
                         <div className='d-flex justify-content-between mt-3'>
                             <button type="button" onClick={() => navigate('/assessment')} className='btn-cancel'>Cancel</button>
                             <button type="submit" className='btn-Create'>Save</button>
@@ -227,6 +242,9 @@ const EditDetails = ({ examName, examCategory, assessmentId }) => {
         </>
     );
 };
+
+
+
 
 const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuestion }) => {
     const { id } = useParams();
@@ -243,7 +261,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     useEffect(() => {
         const fetchExamDetails = async () => {
             try {
-                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}`);
+                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}`);
                 if (response.ok) {
                     const data = await response.json();
                     setExamDetails({ examName: data.examName, examCategory: data.examCategory });
@@ -282,7 +300,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
 
         try {
             const response = editingQuestion ?
-                await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}/questions/${editingQuestion._id}`, {
+                await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}/questions/${editingQuestion._id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -290,7 +308,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                     body: JSON.stringify(newQuestion),
                 })
                 :
-                await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}/questions`, {
+                await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}/questions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -15,3 +15,9 @@
     position: absolute;
     right: 100px;
 }
+
+.logout-btn {
+    color: red;
+    margin-top: 5px;
+    cursor: pointer;
+}

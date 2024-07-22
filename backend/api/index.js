@@ -13,7 +13,7 @@ connectDB();
 
 app.use(cors(
     {
-        origin: ["https://confess-data-tool-eu.vercel.app"],
+        origin: ["https://confess-data-tool.vercel.app"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
@@ -41,6 +41,26 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    totalTurnover: {
+        type: Number,
+        default: 0
+    },
+    totalCapex: {
+        type: Number,
+        default: 0
+    },
+    totalOpex: {
+        type: Number,
+        default: 0
+    },
+    totalActivity: {
+        type: Number,
+        default: 0
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
@@ -71,6 +91,7 @@ const Admin = mongoose.model('Admin', adminSchema);
 const Assessment = mongoose.model('Assessment', new mongoose.Schema({
     examName: String,
     examCategory: String,
+    language: String,
     questions: [
         {
             questionID: String,
@@ -233,12 +254,12 @@ app.post('/api/admin/login', async (req, res) => {
 
 // POST route to create an assessment
 app.post('/api/assessments', async (req, res) => {
-    const { examName, examCategory } = req.body;
-    if (!examName || !examCategory) {
-        return res.status(400).send('Exam Name and Exam Category are required');
+    const { examName, examCategory, language } = req.body; // Include language in the destructuring
+    if (!examName || !examCategory || !language) {
+        return res.status(400).send('Exam Name, Exam Category, and Language are required');
     }
     try {
-        const newAssessment = new Assessment({ examName, examCategory });
+        const newAssessment = new Assessment({ examName, examCategory, language }); // Include language in the new assessment
         await newAssessment.save();
         res.status(201).send('Assessment created successfully');
     } catch (error) {
@@ -246,6 +267,7 @@ app.post('/api/assessments', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
 
 // GET route to fetch all assessments
 app.get('/api/assessments', async (req, res) => {
@@ -286,11 +308,11 @@ app.get('/api/assessments/:id', async (req, res) => {
 
 // PUT route to update an assessment
 app.put('/api/assessments/:id', async (req, res) => {
-    const { examName, examCategory } = req.body;
+    const { examName, examCategory, language } = req.body;
     try {
         const assessment = await Assessment.findByIdAndUpdate(
             req.params.id,
-            { examName, examCategory },
+            { examName, examCategory, language },
             { new: true }
         );
         if (!assessment) {
@@ -425,10 +447,26 @@ app.post('/api/results/submitresults', async (req, res) => {
             console.error('Assessment not found');
             return res.status(404).json({ message: 'Assessment not found' });
         }
+
+        // Initialize totals to update the user's schema
+        let totalTurnover = 0;
+        let totalCapex = 0;
+        let totalOpex = 0;
+        let totalActivity = 1;
+
         // Process the answers to ensure they are in the correct format
         const results = answers.map(answer => {
             const question = assessment.questions.find(q => q.questionID === answer.questionID);
             if (question) {
+                // Update totals based on question category
+                if (answer.questionCategory === 'Turnover') {
+                    totalTurnover += parseFloat(answer.answer);
+                } else if (answer.questionCategory === 'CapEx') {
+                    totalCapex += parseFloat(answer.answer);
+                } else if (answer.questionCategory === 'OpEx') {
+                    totalOpex += parseFloat(answer.answer);
+                }
+
                 return {
                     questionID: answer.questionID,
                     questionCategory: answer.questionCategory,
@@ -444,6 +482,15 @@ app.post('/api/results/submitresults', async (req, res) => {
                 };
             }
         });
+
+        // Update the user's totals
+        user.totalTurnover += totalTurnover;
+        user.totalCapex += totalCapex;
+        user.totalOpex += totalOpex;
+        user.totalActivity += totalActivity;
+
+        await user.save();
+
         const result = new Result({
             examName,
             examCategory,
@@ -467,6 +514,7 @@ app.post('/api/results/submitresults', async (req, res) => {
         res.status(500).json({ message: 'Error saving results' });
     }
 });
+
 
 
 
@@ -580,6 +628,34 @@ app.get('/api/dashboard', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+
+// PUT route to update user financial data
+app.put('/api/users/:id/financial-data', async (req, res) => {
+    const { id } = req.params;
+    const { totalTurnover, totalCapex, totalOpex } = req.body;
+
+    console.log("Received PUT request with data:", { id, totalTurnover, totalCapex, totalOpex });
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { totalTurnover, totalCapex, totalOpex },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).send('User not found');
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+
 
 
 

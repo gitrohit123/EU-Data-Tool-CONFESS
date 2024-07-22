@@ -20,7 +20,7 @@ function LoginPage() {
         e.preventDefault();
         setError('');
         try {
-            const response = await axios.post('https://confess-data-tool-backend-beta.vercel.app/api/users/login', {
+            const response = await axios.post('https://confess-data-tool-backend.vercel.app/api/users/login', {
                 email,
                 password
             });

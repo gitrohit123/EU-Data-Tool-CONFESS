@@ -24,7 +24,7 @@ function AdminSignup() {
         setError('');
         setSuccess('');
         try {
-            const response = await axios.post('https://confess-data-tool-backend-beta.vercel.app/api/admin/register', {
+            const response = await axios.post('https://confess-data-tool-backend.vercel.app/api/admin/register', {
                 name,
                 email,
                 password

@@ -38,7 +38,8 @@
 }
 
 .input1,
-.input2 {
+.input2,
+.input3 {
     border: 2px solid rgba(0, 0, 0, 0.802);
     border-radius: 10px;
     height: 55px;
@@ -51,12 +52,15 @@
     background-color: rgba(0, 255, 255, 0);
 }
 
-.input1:focus {
+.input1:focus,
+.input2:focus,
+.input3:focus {
     border: 2px solid white;
 }
 
 .input1:focus+label,
 .input2:focus+label,
+.input3:focus+label,
 .input-wrap.has-value label {
     font-size: 10px;
     color: rgba(0, 0, 0, 0.263);
@@ -68,7 +72,7 @@
 .input-wrap label {
     font-size: 14px;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.442);
+    color: rgba(0, 0, 0, 0.376);
     padding: 14px;
     position: absolute;
     top: 4px;

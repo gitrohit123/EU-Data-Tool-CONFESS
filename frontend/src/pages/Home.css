@@ -1,6 +1,7 @@
 .home {
     background-color: #E4E7E8;
-    height: 100vh;
+    min-height: 100vh;
+    /* max-height: 100%; */
 }
 
 .home-main {
@@ -20,7 +21,7 @@
 .home-main .card {
     background-color: #18181B;
     color: #ECEDE1;
-    max-width: 250px;
+    max-width: 260px;
     min-width: 248px;
     border-radius: 20px;
     font-size: 1rem;

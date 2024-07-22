@@ -107,3 +107,41 @@
         max-width: 100%;
     }
 }
+
+
+
+.category-nav {
+    margin-bottom: 20px;
+}
+
+.nav-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.nav-button.active {
+    background-color: #18181B;
+    color: white;
+}
+
+.cards-main-landing {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-landing {
+    margin: 10px;
+    width: 300px;
+}
+
+.card-body-landing {
+    padding: 15px;
+}
+
+.btn-2 {
+    margin-top: 10px;
+}

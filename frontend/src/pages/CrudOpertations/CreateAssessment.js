@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function CreateAssessment() {
     const [name1, setName1] = useState('');
     const [name2, setName2] = useState('');
+    const [language, setLanguage] = useState(''); // Add state for language
 
     const clearInput1 = () => setName1('');
     const clearInput2 = () => setName2('');
@@ -17,11 +18,12 @@ function CreateAssessment() {
         e.preventDefault();
         const assessmentData = {
             examName: name1,
-            examCategory: name2
+            examCategory: name2,
+            language: language // Include language in assessmentData
         };
 
         try {
-            const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/assessments', {
+            const response = await fetch('https://confess-data-tool-backend.vercel.app/api/assessments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -54,6 +56,7 @@ function CreateAssessment() {
 
             <section className='form-create'>
                 <form onSubmit={handleSubmit}>
+
                     <div className={`input-wrap ${name1 ? 'has-value' : ''}`}>
                         <input
                             type='text'
@@ -78,6 +81,15 @@ function CreateAssessment() {
                         {name2 && <button type="button" className="clear-button" onClick={clearInput2}>
                             <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                         </button>}
+                    </div>
+
+                    <div className={`input-wrap ${language ? 'has-value' : ''}`}>
+                        <select className='input3' value={language} onChange={(e) => setLanguage(e.target.value)}>
+                            <option className='d-none text-secondary' value=""></option>
+                            <option value="english">English</option>
+                            <option value="german">German</option>
+                        </select>
+                        <label className='text-secondary'>Language <span className='text-danger'>*</span></label>
                     </div>
 
                     <div className='d-flex justify-content-between mt-3'>
