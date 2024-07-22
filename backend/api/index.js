@@ -13,7 +13,7 @@ connectDB();
 
 app.use(cors(
     {
-        origin: ["https://confess-data-tool.vercel.app"],
+        origin: ["https://confess-data-tool-eu.vercel.app"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
