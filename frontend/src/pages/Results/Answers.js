@@ -7,7 +7,7 @@ function Answers() {
     const [questionAnswers, setQuestionAnswers] = useState([]);
 
     useEffect(() => {
-        fetch(`https://confess-data-tool-backend.vercel.app/api/results/${examName}/${examCategory}/answers`)
+        fetch(`https://confess-data-tool-backend-beta.vercel.app/api/results/${examName}/${examCategory}/answers`)
             .then(response => response.json())
             .then(data => setQuestionAnswers(data))
             .catch(error => console.error('Error fetching answers:', error));

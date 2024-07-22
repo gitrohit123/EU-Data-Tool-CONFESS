@@ -11,7 +11,7 @@ function AssessmentCrud() {
     useEffect(() => {
         const fetchAssessments = async () => {
             try {
-                const response = await fetch('https://confess-data-tool-backend.vercel.app/api/assessments');
+                const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/assessments');
                 if (response.ok) {
                     const data = await response.json();
                     setAssessments(data);
@@ -33,7 +33,7 @@ function AssessmentCrud() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${id}`, {
+            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {

@@ -34,7 +34,7 @@ function Reports() {
         const fetchUsers = async () => {
             const email = localStorage.getItem('email');
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/users`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/users`);
                 if (response.ok) {
                     const data = await response.json();
                     const matchedUser = data.find(user => user.email === email);
@@ -92,7 +92,7 @@ function Reports() {
                 return;
             }
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/dashboard?email=${email}`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/dashboard?email=${email}`);
                 if (response.ok) {
                     const data = await response.json();
                     setResults(data);
@@ -315,7 +315,7 @@ const DashboardPop = ({ setDashopop, users, TotalActivity, setResults }) => {
 
         try {
             console.log("Sending updated data:", updatedData);
-            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/users/${users._id}/financial-data`, {
+            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/users/${users._id}/financial-data`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ function AssessmentPage() {
     useEffect(() => {
         const fetchQuestions = async () => {
             try {
-                const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/assessments/${examName}/questions`);
+                const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/assessments/${examName}/questions`);
                 if (response.ok) {
                     const data = await response.json();
                     setQuestions(data);
@@ -205,7 +205,7 @@ function AssessmentPage() {
                 }
             });
             // Send the data to the backend
-            const response = await fetch('https://confess-data-tool-backend.vercel.app/api/results/submitresults', {
+            const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/results/submitresults', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

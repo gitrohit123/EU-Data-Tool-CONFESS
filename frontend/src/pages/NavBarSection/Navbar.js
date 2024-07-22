@@ -37,7 +37,7 @@ const NavSection = () => {
 
     const fetchUsers = useCallback(async () => {
         try {
-            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/users`);
+            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/users`);
             if (response.ok) {
                 const data = await response.json();
                 setUsers(data);
@@ -51,7 +51,7 @@ const NavSection = () => {
 
     const fetchAdmins = useCallback(async () => {
         try {
-            const response = await fetch(`https://confess-data-tool-backend.vercel.app/api/admin`);
+            const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/admin`);
             if (response.ok) {
                 const data = await response.json();
                 setAdmins(data);
