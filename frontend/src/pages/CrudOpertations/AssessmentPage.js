@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './AssessmentPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEuroSign } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AssessmentPage() {
     const { state } = useLocation();
@@ -38,15 +40,16 @@ function AssessmentPage() {
         fetchQuestions();
     }, [examName]);
 
+
+
     const handleNextQuestion = () => {
+
         const newQuestionIDs = [];
         let addHello = false;
         let savedque = [];
-
         currentQuestionIDs.forEach(id => {
             const currentQuestion = questions.find(q => q.questionID === id);
             const answer = answers[currentQuestion.questionID] || '';
-
             if (
                 currentQuestion &&
                 ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value'].includes(currentQuestion.questionType) &&
@@ -58,8 +61,34 @@ function AssessmentPage() {
                     (currentQuestion.questionType === 'Numerical Value' && answer === '')
                 )
             ) {
-                alert(currentQuestion.alertText); // Show alert with the value of alertText
+                alert(currentQuestion.alertText);
             }
+
+            if (
+                currentQuestion &&
+                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value'].includes(currentQuestion.questionType) &&
+                currentQuestion.notifytext &&
+                (
+                    (currentQuestion.questionType === 'MCQ' && answer) ||
+                    (currentQuestion.questionType === 'Multiple Select' && answer) ||
+                    ((currentQuestion.questionType === 'Short' || currentQuestion.questionType === 'Long Text') && answer) ||
+                    (currentQuestion.questionType === 'Numerical Value' && answer)
+                )
+            ) {
+                toast.info((currentQuestion.notifytext), {
+                    position: 'top-center',
+                    autoClose: 3000,
+                    theme: 'light',
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: false,
+                    progress: undefined,
+                });
+            }
+
+
+
 
             if (currentQuestion && currentQuestion.nextQuestions) {
                 if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
@@ -77,7 +106,6 @@ function AssessmentPage() {
                     newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
                 }
             }
-
             const prevQuestion = questions.find(q => q.questionID === id);
             if (prevQuestion && prevQuestion.questionType === 'Multiple Select') {
                 addHello = true; // Set flag to true to add Hello to the next question
@@ -88,7 +116,6 @@ function AssessmentPage() {
                 }
             }
         });
-
         const nextQuestions = newQuestionIDs.map(id => questions.find(q => q.questionID === id));
         setAllCurrentQuestions(prev => [...prev, ...nextQuestions.filter(Boolean)]);
 
@@ -110,7 +137,6 @@ function AssessmentPage() {
             }
         }
     };
-
     const handlePreviousQuestion = () => {
         if (questionHistory.length > 1) {
             const newHistory = [...questionHistory];
@@ -204,6 +230,7 @@ function AssessmentPage() {
                     };
                 }
             });
+
             // Send the data to the backend
             const response = await fetch('https://confess-data-tool-backend-beta.vercel.app/api/results/submitresults', {
                 method: 'POST',
@@ -234,7 +261,7 @@ function AssessmentPage() {
                 return (
                     <>
                         {question.options.filter(option => option).map((option, index) => (
-                            <div key={index} className='fs-5'>
+                            <div key={index} className='fs-6'>
                                 <input
                                     type="radio"
                                     className='m-1 form-check-input'
@@ -306,10 +333,16 @@ function AssessmentPage() {
     };
 
     const isLastQuestion = currentQuestions.some(question => question.nextQuestions === 'end');
+    const excludedCategories = ['Turnover', 'Capex', 'OpEx', 'Blank'];
+    const currentCategory = currentQuestions[0]?.questionCategory;
 
     return (
         <div className='assessment-page container mt-5 py-5'>
             <h4>{examName}</h4>
+            <h4>{excludedCategories.includes(currentCategory) ? '' : currentCategory}</h4>
+
+
+
             {currentQuestions.map(question => (
                 <div key={question.questionID} className='question text-start'>
                     <p className='mt-5' dangerouslySetInnerHTML={{ __html: question.question }}></p>
@@ -347,6 +380,7 @@ function AssessmentPage() {
                     </button>
                 )}
             </div>
+            <ToastContainer />
         </div>
     );
 }

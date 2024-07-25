@@ -101,6 +101,7 @@ const Assessment = mongoose.model('Assessment', new mongoose.Schema({
             nextQuestions: String,
             disclaimer: String,
             alertText: String,
+            notifytext: String,
             options: [String]
         }
     ]
@@ -327,7 +328,7 @@ app.put('/api/assessments/:id', async (req, res) => {
 // POST route to add a new question to an assessment
 app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
     const { assessmentId } = req.params;
-    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, options } = req.body;
+    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options } = req.body;
 
     if (!questionID || !question || !questionType || !questionCategory) {
         return res.status(400).send('Question ID, Question, Question Type, and Question Category are required');
@@ -339,7 +340,7 @@ app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
             return res.status(404).send('Assessment not found');
         }
 
-        const newQuestion = { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, options };
+        const newQuestion = { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options };
         assessment.questions.push(newQuestion);
 
         await assessment.save();
@@ -359,7 +360,7 @@ app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
 // PUT route to update a question in an assessment
 app.put('/api/assessments/:assessmentId/questions/:questionId', async (req, res) => {
     const { assessmentId, questionId } = req.params;
-    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, options } = req.body;
+    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options } = req.body;
 
     if (!questionID || !question || !questionType || !questionCategory) {
         return res.status(400).send('Question ID, Question, Question Type, and Question Category are required');
@@ -376,7 +377,7 @@ app.put('/api/assessments/:assessmentId/questions/:questionId', async (req, res)
             return res.status(404).send('Question not found');
         }
 
-        assessment.questions[questionIndex] = { _id: questionId, questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, options };
+        assessment.questions[questionIndex] = { _id: questionId, questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options };
         await assessment.save();
 
         res.status(200).json({
@@ -460,25 +461,25 @@ app.post('/api/results/submitresults', async (req, res) => {
             if (question) {
                 // Update totals based on question category
                 if (answer.questionCategory === 'Turnover') {
-                    totalTurnover += parseFloat(answer.answer);
+                    totalTurnover += parseFloat(answer.answer) || 0;
                 } else if (answer.questionCategory === 'CapEx') {
-                    totalCapex += parseFloat(answer.answer);
+                    totalCapex += parseFloat(answer.answer) || 0;
                 } else if (answer.questionCategory === 'OpEx') {
-                    totalOpex += parseFloat(answer.answer);
+                    totalOpex += parseFloat(answer.answer) || 0;
                 }
 
                 return {
                     questionID: answer.questionID,
                     questionCategory: answer.questionCategory,
                     questionType: answer.questionType,
-                    answer: answer.answer.includes(';') ? answer.answer.split(';').map(a => a.trim()) : [answer.answer.trim()],
+                    answer: answer.answer ? (answer.answer.includes(';') ? answer.answer.split(';').map(a => a.trim()) : [answer.answer.trim()]) : ''
                 };
             } else {
                 console.error(`Question with ID ${answer.questionID} not found in the assessment.`);
                 return {
                     questionID: answer.questionID,
                     questionCategory: answer.questionCategory,
-                    answer: answer.answer.includes(';') ? answer.answer.split(';').map(a => a.trim()) : [answer.answer.trim()],
+                    answer: answer.answer ? (answer.answer.includes(';') ? answer.answer.split(';').map(a => a.trim()) : [answer.answer.trim()]) : ''
                 };
             }
         });

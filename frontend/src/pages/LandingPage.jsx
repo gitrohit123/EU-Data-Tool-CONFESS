@@ -92,15 +92,18 @@ const LandingPage = () => {
 
                 {/* Assessments cards */}
                 <div className='cards-main'>
-                    {categoryFilteredAssessments.map((assessment) => (
-                        <div className="card" key={assessment._id}>
-                            <div className='card-body'>
-                                <h5 className="card-text">{assessment.examName}</h5>
-                                <div className="card-title h5">{lang.category} {assessment.examCategory}</div>
-                                <button onClick={() => startButton(assessment.examName, assessment.examCategory)} type="button" className="btn-2">{lang.startButton}</button>
+                    {categoryFilteredAssessments.map((assessment) => {
+
+                        return (
+                            <div className="card" key={assessment._id}>
+                                <div className='card-body'>
+                                    <h5 className="card-text">{assessment.examName}</h5>
+                                    <div className="card-title h5">{lang.category} {assessment.examCategory}</div>
+                                    <button onClick={() => startButton(assessment.examName, assessment.examCategory)} type="button" className="btn-2">{lang.startButton}</button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
             </section>
         </div>

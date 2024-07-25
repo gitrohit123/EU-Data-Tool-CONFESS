@@ -2,7 +2,9 @@ import React, { useEffect, useState, useCallback } from 'react';
 import './Reports.css';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEuroSign, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faEuroSign } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Reports() {
     const [results, setResults] = useState([]);
@@ -52,6 +54,7 @@ function Reports() {
         };
         fetchUsers();
     }, []);
+
 
     const ChartDetails = [
         {
@@ -106,10 +109,13 @@ function Reports() {
         };
         fetchResults();
     }, []);
-
     const DashResult = result.results || [];
     const TotalActivity = DashResult.length;
 
+
+
+
+  
     return (
         <div className='d-flex justify-content-center mt-5'>
             <section className='reports-main'>
@@ -171,6 +177,9 @@ function Reports() {
                             </div>
                         );
                     })}
+
+                  
+
                 </section>
 
                 <div className="card card-reports mt-5">
@@ -191,6 +200,8 @@ function Reports() {
                 </div>
 
                 <section>
+
+
                     {DashResult.map((value, index) => {
                         const filteredAnswers = value.answers.filter(answer => answer.questionType !== "Blank");
                         const SubstentialContribution = filteredAnswers.filter(answer => answer.questionCategory === 'Substantial Contribution');
@@ -199,25 +210,38 @@ function Reports() {
                         const DNSHwater = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Water');
                         const DNSHpollution = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Pollution');
                         const DNSHbiodibersity = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Biodiversity');
+                        const Turnover = filteredAnswers.filter(answer => answer.questionCategory === 'Turnover');
 
-                        const AllSubstential = SubstentialContribution.every(answer =>
+                        const AllSubstential = SubstentialContribution.length > 0 && SubstentialContribution.every(answer =>
                             answer.answer.every(ans => ans.trim() !== "")
                         );
-                        const AllDNSHAdaption = DNSHAdaption.every(answer =>
+                        const AllDNSHAdaption = DNSHAdaption.length > 0 && DNSHAdaption.every(answer =>
                             answer.answer.every(ans => ans.trim() !== "")
                         );
-                        const AllDNSHce = DNSHce.every(answer =>
+                        const AllDNSHce = DNSHce.length > 0 && DNSHce.every(answer =>
                             answer.answer.every(ans => ans.trim() !== "")
                         );
-                        const AllDNSHwater = DNSHwater.every(answer =>
+                        const AllDNSHwater = DNSHwater.length > 0 && DNSHwater.every(answer =>
                             answer.answer.every(ans => ans.trim() !== "")
                         );
-                        const AllDNSHpollution = DNSHpollution.every(answer =>
+                        const AllDNSHpollution = DNSHpollution.length > 0 && DNSHpollution.every(answer =>
                             answer.answer.every(ans => ans.trim() !== "")
                         );
-                        const AllDNSHbiodibersity = DNSHbiodibersity.every(answer =>
+                        const AllDNSHbiodibersity = DNSHbiodibersity.length > 0 && DNSHbiodibersity.every(answer =>
                             answer.answer.every(ans => ans.trim() !== "")
                         );
+
+                        const alignmentStatuses = {
+                            substantialContribution: AllSubstential ? 'aligned' : 'not aligned',
+                            climateChangeAdaptation: AllDNSHAdaption ? 'aligned' : 'not aligned',
+                            waterProtection: AllDNSHwater ? 'aligned' : 'not aligned',
+                            circularEconomy: AllDNSHce ? 'aligned' : 'not aligned',
+                            pollutionPrevention: AllDNSHpollution ? 'aligned' : 'not aligned',
+                            biodiversity: AllDNSHbiodibersity ? 'aligned' : 'not aligned',
+                        };
+
+                        console.log(Turnover);
+
 
                         return (
                             <div key={value._id} className="card card-reports mt-5 text-start">
@@ -226,32 +250,33 @@ function Reports() {
                                 </div>
                                 <div className='d-flex mx-3 mt-3 justify-content-between'>
                                     <p>{currentLanguage === 'english' ? 'Substantial Contribution (Climate Change Mitigation)' : 'Substanzielle Beiträge (Klimaschutz)'}</p>
-                                    <span className={AllSubstential ? 'darkgreen-dot mx-4' : 'orange-dot mx-4'}></span>
+                                    <span className={AllSubstential ? 'darkgreen-dot mx-4' : 'orange-dot  mx-4'}></span>
                                 </div>
                                 <p className="mx-3 mt-4">{currentLanguage === 'english' ? 'Do No Significant Harm' : 'Keine wesentlichen Schäden'}</p>
                                 <div className='d-flex mx-3 mt-2 justify-content-between'>
                                     <p>{currentLanguage === 'english' ? 'Climate Change Adaptation' : 'Klimawandel-Anpassung'}</p>
-                                    <span className={AllDNSHAdaption ? 'darkgrey-dot mx-4' : 'darkgrey-dot mx-4'}></span>
+                                    <span className={AllDNSHAdaption ? 'darkgrey-dot  mx-4' : 'darkgrey-dot mx-4'}></span>
                                 </div>
                                 <div className='d-flex mx-3 justify-content-between'>
                                     <p>{currentLanguage === 'english' ? 'Water and Marine Protection' : 'Wasser- und Meeresschutz'}</p>
-                                    <span className={AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4'}></span>
+                                    <span className={AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot  mx-4'}></span>
                                 </div>
                                 <div className='d-flex mx-3 justify-content-between'>
                                     <p>{currentLanguage === 'english' ? 'Circular Economy' : 'Kreislaufwirtschaft'}</p>
-                                    <span className={AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4'}></span>
+                                    <span className={AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot  mx-4'}></span>
                                 </div>
                                 <div className='d-flex mx-3 justify-content-between'>
                                     <p>{currentLanguage === 'english' ? 'Pollution Prevention' : 'Verschmutzungsprävention'}</p>
-                                    <span className={AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4'}></span>
+                                    <span className={AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot  mx-4'}></span>
                                 </div>
                                 <div className='d-flex mx-3 justify-content-between'>
                                     <p>{currentLanguage === 'english' ? 'Biodiversity' : 'Biodiversität'}</p>
-                                    <span className={AllDNSHbiodibersity ? 'darkgreen-dot mx-4' : 'orange-dot mx-4'}></span>
+                                    <span className={AllDNSHbiodibersity ? 'darkgreen-dot mx-4' : 'orange-dot  mx-4'}></span>
                                 </div>
                             </div>
                         );
                     })}
+
                 </section>
 
                 {Dashopop && <DashboardPop setResults={setResults} totalTurnover={totalTurnover} totalCapex={totalCapex} totalOpex={totalOpex} TotalActivity={TotalActivity} setDashopop={setDashopop} users={users} />}
@@ -313,6 +338,53 @@ const DashboardPop = ({ setDashopop, users, TotalActivity, setResults }) => {
             totalOpex: parseFloat(opex),
         };
 
+        const messages = content[currentLanguage].errorMessages;
+        let hasError = false;
+
+        if (updatedData.totalTurnover < users.totalTurnover) {
+            toast.error(messages.turnoverError.replace('{currentValue}', users.totalTurnover), {
+                position: 'top-center',
+                autoClose: 3000,
+                theme: 'light',
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
+            hasError = true;
+        }
+        if (updatedData.totalCapex < users.totalCapex) {
+            toast.error(messages.capexError.replace('{currentValue}', users.totalCapex), {
+                position: 'top-center',
+                autoClose: 3000,
+                theme: 'light',
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
+            hasError = true;
+        }
+        if (updatedData.totalOpex < users.totalOpex) {
+            toast.error(messages.opexError.replace('{currentValue}', users.totalOpex), {
+                position: 'top-center',
+                autoClose: 3000,
+                theme: 'light',
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+            });
+            hasError = true;
+        }
+
+        if (hasError) {
+            return; // Prevent form submission
+        }
+
         try {
             console.log("Sending updated data:", updatedData);
             const response = await fetch(`https://confess-data-tool-backend-beta.vercel.app/api/users/${users._id}/financial-data`, {
@@ -351,6 +423,11 @@ const DashboardPop = ({ setDashopop, users, TotalActivity, setResults }) => {
                 totalActivities: 'Total Activities',
                 cancel: 'Cancel',
                 submit: 'Submit',
+            },
+            errorMessages: {
+                turnoverError: 'The entered turnover amount is lower than the current value of Total Turnover: {currentValue}.',
+                capexError: 'The entered Capex amount is lower than the current value of Total Capex: {currentValue}.',
+                opexError: 'The entered OpEx amount is lower than the current value of Total OpEx: {currentValue}.',
             }
         },
         german: {
@@ -367,11 +444,17 @@ const DashboardPop = ({ setDashopop, users, TotalActivity, setResults }) => {
                 totalActivities: 'Gesamtaktivitäten',
                 cancel: 'Abbrechen',
                 submit: 'Einreichen',
+            },
+            errorMessages: {
+                turnoverError: 'Der eingegebene Umsatzbetrag liegt unter dem aktuellen Wert des Gesamtumsatzes: {currentValue}.',
+                capexError: 'Der eingegebene CapEx-Betrag liegt unter dem aktuellen Wert des Gesamt-CapEx: {currentValue}.',
+                opexError: 'Der eingegebene OpEx-Betrag liegt unter dem aktuellen Wert des Gesamt-OpEx: {currentValue}.',
             }
         }
     };
 
     const { heading, paragraphs, labels } = content[currentLanguage];
+    const { errorMessages } = content[currentLanguage];
 
     return (
         <div className='Dash-pop'>
@@ -424,10 +507,12 @@ const DashboardPop = ({ setDashopop, users, TotalActivity, setResults }) => {
                         <button type="submit" className='btn btn-primary'>{labels.submit}</button>
                     </div>
                 </form>
+                <ToastContainer />
             </section>
         </div>
     );
 };
+
 
 
 

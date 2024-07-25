@@ -117,6 +117,7 @@ function UpdateAssessment() {
                                         <th scope="col">Question ID</th>
                                         <th scope="col">Question</th>
                                         <th scope="col">Question Type</th>
+                                        <th scope="col">Question Category</th>
                                         <th scope="col">Next Questions</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -127,6 +128,7 @@ function UpdateAssessment() {
                                             <td>{question.questionID}</td>
                                             <td>{question.question}</td>
                                             <td>{question.questionType}</td>
+                                            <td>{question.questionCategory}</td>
                                             <td>{question.nextQuestions}</td>
                                             <td>
                                                 <FontAwesomeIcon className='icon' icon={faPenToSquare} onClick={() => handleEditQuestion(question)} />
@@ -253,6 +255,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     const [name5, setName5] = useState(editingQuestion ? editingQuestion.nextQuestions : '');
     const [name6, setName6] = useState(editingQuestion ? editingQuestion.disclaimer : '');
     const [name7, setName7] = useState(editingQuestion ? editingQuestion.alertText : '');
+    const [name8, setName8] = useState(editingQuestion ? editingQuestion.notifytext : '');
     const [options, setOptions] = useState(editingQuestion ? editingQuestion.options || [] : []);
     const [questionType, setQuestionType] = useState(editingQuestion ? editingQuestion.questionType : '');
     const [questionCategory, setQuestionCategory] = useState(editingQuestion ? editingQuestion.questionCategory : '');
@@ -293,6 +296,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
             nextQuestions: name5,
             disclaimer: name6,
             alertText: name7,
+            notifytext: name8,
             options: questionType === "MCQ" || questionType === "Multiple Select" ? options : [],
             examName: examDetails.examName,
             examCategory: examDetails.examCategory
@@ -402,6 +406,14 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         <input type='text' className='input-5' value={name7} onChange={(e) => setName7(e.target.value)} />
                         <label>Alert if not answered</label>
                         {name7 && <button type="button" className="clear-buttons" onClick={clearInput(setName7)}>
+                            <FontAwesomeIcon className='input-close-icons' icon={faCircleXmark} />
+                        </button>}
+                    </div>
+
+                    <div className={`input-wraps ${name8 ? 'has-values' : ''}`}>
+                        <input type='text' className='input-5' value={name8} onChange={(e) => setName8(e.target.value)} />
+                        <label>Notify If answered</label>
+                        {name8 && <button type="button" className="clear-buttons" onClick={clearInput(setName8)}>
                             <FontAwesomeIcon className='input-close-icons' icon={faCircleXmark} />
                         </button>}
                     </div>
