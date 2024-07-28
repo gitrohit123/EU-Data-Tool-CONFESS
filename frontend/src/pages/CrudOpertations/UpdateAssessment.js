@@ -297,7 +297,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
             disclaimer: name6,
             alertText: name7,
             notifytext: name8,
-            options: questionType === "MCQ" || questionType === "Multiple Select" ? options : [],
+            options: questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Numerical Value" ? options : [],
             examName: examDetails.examName,
             examCategory: examDetails.examCategory
         };
@@ -332,7 +332,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     };
 
 
-    const canAddOption = (questionType === "MCQ" && options.length < 4) || (questionType === "Multiple Select" && options.length < 5);
+    const canAddOption = (questionType === "MCQ" && options.length < 4) || (questionType === "Multiple Select" && options.length < 10) || (questionType === "Numerical Value" && options.length < 1);
 
     return (
         <section className='add-question-main'>
@@ -363,6 +363,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                             <option value="Long Text">Long Text</option>
                             <option value="Numerical Value">Numerical Value</option>
                             <option value="Multiple Select">Multiple Select</option>
+                            <option value="Year">Fiscal Year</option>
                             <option value="Blank">Blank</option>
                         </select>
                         <label>Question Type <span className='text-danger'>*</span></label>
@@ -377,9 +378,11 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                             <option value="DNSH - Water">DNSH - Water</option>
                             <option value="DNSH - CE">DNSH - CE</option>
                             <option value="DNSH - Pollution">DNSH - Pollution</option>
+                            <option value="Fiscal Year">Fiscal Year</option>
                             <option value="Turnover">Turnover</option>
                             <option value="CapEx">CapEx</option>
                             <option value="OpEx">OpEx</option>
+
                             <option value="Blank">Blank</option>
                         </select>
                         <label>Question Category <span className='text-danger'>*</span></label>
@@ -418,7 +421,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         </button>}
                     </div>
 
-                    {(questionType === "MCQ" || questionType === "Multiple Select") && (
+                    {(questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Numerical Value") && (
                         <div className='msq-options'>
                             {options.map((option, index) => (
                                 <div className='d-flex m-1' key={index}>

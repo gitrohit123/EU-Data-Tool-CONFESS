@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './AssessmentPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEuroSign } from '@fortawesome/free-solid-svg-icons';
+import { faEuroSign, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -47,6 +47,7 @@ function AssessmentPage() {
         const newQuestionIDs = [];
         let addHello = false;
         let savedque = [];
+        let shouldProceed = true;
         currentQuestionIDs.forEach(id => {
             const currentQuestion = questions.find(q => q.questionID === id);
             const answer = answers[currentQuestion.questionID] || '';
@@ -62,6 +63,7 @@ function AssessmentPage() {
                 )
             ) {
                 alert(currentQuestion.alertText);
+                shouldProceed = false;
             }
 
             if (
@@ -88,24 +90,61 @@ function AssessmentPage() {
             }
 
 
-
-
             if (currentQuestion && currentQuestion.nextQuestions) {
                 if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
                     let selectedAnswer = answers[currentQuestion.questionID];
                     if (!selectedAnswer) {
                         selectedAnswer = 'Yes';
                     }
+
                     const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
+                    console.log('selectedAnswer:', selectedAnswer);
+                    console.log('nextQuestionsArray:', nextQuestionsArray);
+
                     if (selectedAnswer === 'Yes' && nextQuestionsArray.length >= 1) {
                         newQuestionIDs.push(nextQuestionsArray[0]);
-                    } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 2) {
+                        console.log("Next question for Yes:", nextQuestionsArray[0]);
+                    } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
                         newQuestionIDs.push(nextQuestionsArray[1]);
+                        console.log("Next question for No:", nextQuestionsArray[1]);
                     }
                 } else {
                     newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
                 }
             }
+
+
+
+            if (currentQuestion && currentQuestion.nextQuestions) {
+                if (currentQuestion.questionType === 'Numerical Value' && currentQuestion.options) {
+                    let GivenAnswer = answers[currentQuestion.questionID];
+
+                    if (!GivenAnswer) {
+                        GivenAnswer = 0;
+                    }
+                    GivenAnswer = Number(GivenAnswer);
+                    const threshold = Number(currentQuestion.options[0]);
+                    console.log(GivenAnswer);
+                    console.log(threshold);
+                    const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
+                    if (GivenAnswer < threshold && nextQuestionsArray.length >= 1) {
+                        newQuestionIDs.push(nextQuestionsArray[0]);
+                        console.log("Lower");
+                    } else if (GivenAnswer >= threshold && nextQuestionsArray.length >= 1) {
+                        newQuestionIDs.push(nextQuestionsArray[1]);
+                        console.log("Higher");
+                    }
+                } else {
+                    newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
+                }
+            }
+
+
+
+
+
+
+
             const prevQuestion = questions.find(q => q.questionID === id);
             if (prevQuestion && prevQuestion.questionType === 'Multiple Select') {
                 addHello = true; // Set flag to true to add Hello to the next question
@@ -116,27 +155,35 @@ function AssessmentPage() {
                 }
             }
         });
-        const nextQuestions = newQuestionIDs.map(id => questions.find(q => q.questionID === id));
-        setAllCurrentQuestions(prev => [...prev, ...nextQuestions.filter(Boolean)]);
 
-        setCurrentQuestionIDs(newQuestionIDs);
-        setQuestionHistory(prevHistory => [...prevHistory, newQuestionIDs]);
+        if (shouldProceed) { // Only proceed if no alert was shown
+            const nextQuestions = newQuestionIDs.map(id => questions.find(q => q.questionID === id));
+            setAllCurrentQuestions(prev => [...prev, ...nextQuestions.filter(Boolean)]);
 
-        if (addHello && newQuestionIDs.length > 0) {
-            const nextQuestionID = newQuestionIDs[0];
-            const nextQuestionIndex = questions.findIndex(q => q.questionID === nextQuestionID);
+            setCurrentQuestionIDs(newQuestionIDs);
+            setQuestionHistory(prevHistory => [...prevHistory, newQuestionIDs]);
 
-            if (nextQuestionIndex !== -1) {
-                const nextQuestion = questions[nextQuestionIndex];
-                const allValues = savedque.flatMap(item => item.split('¦').map(s => s.trim()));
-                const uniqueValues = Array.from(new Set(allValues));
-                const combinedSavedque = uniqueValues.map(item => `<li>${item}</li>`).join(' ');
-                nextQuestion.question = `${nextQuestion.question} ${combinedSavedque}`;
-                setQuestions([...questions]);
-                setSavedOptions('');
+            if (addHello && newQuestionIDs.length > 0) {
+                const nextQuestionID = newQuestionIDs[0];
+                const nextQuestionIndex = questions.findIndex(q => q.questionID === nextQuestionID);
+
+                if (nextQuestionIndex !== -1) {
+                    const nextQuestion = questions[nextQuestionIndex];
+                    const allValues = savedque.flatMap(item => item.split('¦').map(s => s.trim()));
+                    const uniqueValues = Array.from(new Set(allValues));
+                    const combinedSavedque = uniqueValues.map(item => `<li>${item}</li>`).join(' ');
+                    nextQuestion.question = `${nextQuestion.question} ${combinedSavedque}`;
+                    setQuestions([...questions]);
+                    setSavedOptions('');
+                }
             }
         }
+
+
+
     };
+
+
     const handlePreviousQuestion = () => {
         if (questionHistory.length > 1) {
             const newHistory = [...questionHistory];
@@ -327,6 +374,25 @@ function AssessmentPage() {
                         />
                     </div>
                 );
+            case 'Year':
+                return (
+                    <div className='numerical'>
+                        <input
+                            type="number"
+                            className='input-4 border-secondary text-secondary w-100'
+                            name={`question-${question.questionID}`}
+                            value={savedAnswer || ''}
+                            max="9999" // Ensure maximum year value is set
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d{0,4}$/.test(value)) { // Only allow up to 4 digits
+                                    handleAnswerChange(question.questionID, value);
+                                }
+                            }}
+                        />
+                    </div>
+                );
+
             default:
                 return null;
         }
@@ -339,8 +405,7 @@ function AssessmentPage() {
     return (
         <div className='assessment-page container mt-5 py-5'>
             <h4>{examName}</h4>
-            <h4>{excludedCategories.includes(currentCategory) ? '' : currentCategory}</h4>
-
+            {excludedCategories.includes(currentCategory) ? '' : <h4 className='container bg-secondary text-white p-2' style={{ borderRadius: "10px 10px 0px 0px" }}>{currentCategory}</h4>}
 
 
             {currentQuestions.map(question => (
@@ -386,3 +451,19 @@ function AssessmentPage() {
 }
 
 export default AssessmentPage;
+
+
+const Tooltip = ({ text, tooltipText }) => {
+    const [hover, setHover] = useState(false);
+
+    return (
+        <span
+            className="tooltip-container"
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+        >
+            {text}
+            {hover && <span className="tooltip">{tooltipText}</span>}
+        </span>
+    );
+};

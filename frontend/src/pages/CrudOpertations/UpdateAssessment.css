@@ -53,7 +53,11 @@
 .option-input-3,
 .option-input-4,
 .option-input-5,
-.option-input-6 {
+.option-input-6,
+.option-input-7,
+.option-input-8,
+.option-input-9,
+.option-input-10 {
     border: 2px solid rgba(255, 255, 255, 0.237);
     border-radius: 10px;
     height: 40px;
@@ -92,7 +96,11 @@
 .option-input-3:focus,
 .option-input-4:focus,
 .option-input-5:focus,
-.option-input-6:focus {
+.option-input-6:focus,
+.option-input-7:focus,
+.option-input-8:focus,
+.option-input-9:focus,
+.option-input-10:focus {
     border: 2px solid rgba(255, 255, 255, 0.505);
 }
 
@@ -107,6 +115,10 @@
 .option-input-4:focus+label,
 .option-input-5:focus+label,
 .option-input-6:focus+label,
+.option-input-7:focus+label,
+.option-input-8:focus+label,
+.option-input-9:focus+label,
+.option-input-10:focus+label,
 .input-wraps.has-values label {
     font-size: 7px;
     color: rgb(255, 255, 255);

@@ -44,7 +44,7 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: conic-gradient(#C4C4C4 15% 30%, #394D2C 0% 15%, #6CC784 30% 100%);
+    /* background: conic-gradient(#C4C4C4 15% 30%, #394D2C 0% 15%, #6CC784 30% 100%); */
 }
 
 .circle-progress::before {
@@ -93,6 +93,15 @@
 
 .orange-dot {
     background-color: #FC7C54;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.white-dot {
+    background-color: #dfdbdbae;
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -223,5 +232,14 @@
 }
 
 .Dash-submit-buttons .btn {
+    border-radius: 10px;
+}
+
+.select-year {
+    width: 100px;
+    border-radius: 10px;
+}
+
+.select-year option {
     border-radius: 10px;
 }
