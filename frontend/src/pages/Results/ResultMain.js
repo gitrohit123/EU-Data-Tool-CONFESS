@@ -20,7 +20,7 @@ function ResultMain() {
     };
 
 
-    console.log(users);
+
     return (
         <div>
             <div className='mt-5 Crud-main-container container'>

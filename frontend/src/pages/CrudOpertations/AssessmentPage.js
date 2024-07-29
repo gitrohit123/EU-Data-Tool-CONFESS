@@ -108,15 +108,12 @@ function AssessmentPage() {
                         newQuestionIDs.push(nextQuestionsArray[1]);
                         console.log("Next question for No:", nextQuestionsArray[1]);
                     }
-                } else {
-                    newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
+                    else {
+                        newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
+                    }
                 }
-            }
 
-
-
-            if (currentQuestion && currentQuestion.nextQuestions) {
-                if (currentQuestion.questionType === 'Numerical Value' && currentQuestion.options) {
+                else if (currentQuestion.questionType === 'Numerical Value' && currentQuestion.options) {
                     let GivenAnswer = answers[currentQuestion.questionID];
 
                     if (!GivenAnswer) {
@@ -134,15 +131,15 @@ function AssessmentPage() {
                         newQuestionIDs.push(nextQuestionsArray[1]);
                         console.log("Higher");
                     }
-                } else {
+                    else {
+                        newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
+                    }
+
+                }
+                else {
                     newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
                 }
             }
-
-
-
-
-
 
 
             const prevQuestion = questions.find(q => q.questionID === id);
