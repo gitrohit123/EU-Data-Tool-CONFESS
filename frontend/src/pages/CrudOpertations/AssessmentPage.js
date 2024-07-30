@@ -53,31 +53,38 @@ function AssessmentPage() {
             const answer = answers[currentQuestion.questionID] || '';
             if (
                 currentQuestion &&
-                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value'].includes(currentQuestion.questionType) &&
+                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
                 currentQuestion.alertText && // Check if alertText key exists
                 (
                     (currentQuestion.questionType === 'MCQ' && !answer) ||
                     (currentQuestion.questionType === 'Multiple Select' && (!answer || answer.length === 0)) ||
-                    ((currentQuestion.questionType === 'Short' || currentQuestion.questionType === 'Long Text') && !answer) ||
-                    (currentQuestion.questionType === 'Numerical Value' && answer === '')
+                    (currentQuestion.questionType === 'Short' && !answer) ||
+                    (currentQuestion.questionType === 'Long Text' && !answer) ||
+                    (currentQuestion.questionType === 'Numerical Value' && !answer) ||
+                    (currentQuestion.questionType === 'Year' && !answer)
                 )
             ) {
                 alert(currentQuestion.alertText);
                 shouldProceed = false;
             }
 
+
+
             if (
                 currentQuestion &&
-                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value'].includes(currentQuestion.questionType) &&
+                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
                 currentQuestion.notifytext &&
                 (
                     (currentQuestion.questionType === 'MCQ' && answer) ||
                     (currentQuestion.questionType === 'Multiple Select' && answer) ||
-                    ((currentQuestion.questionType === 'Short' || currentQuestion.questionType === 'Long Text') && answer) ||
-                    (currentQuestion.questionType === 'Numerical Value' && answer)
+                    (currentQuestion.questionType === 'Short' && answer) ||
+                    (currentQuestion.questionType === 'Long Text' && answer) ||
+                    (currentQuestion.questionType === 'Numerical Value' && answer) ||
+                    (currentQuestion.questionType === 'Year' && answer)
                 )
             ) {
-                toast.info((currentQuestion.notifytext), {
+                console.log(currentQuestion.notifytext);
+                toast.info(currentQuestion.notifytext, {
                     position: 'top-center',
                     autoClose: 3000,
                     theme: 'light',
@@ -93,9 +100,6 @@ function AssessmentPage() {
             if (currentQuestion && currentQuestion.nextQuestions) {
                 if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
                     let selectedAnswer = answers[currentQuestion.questionID];
-                    if (!selectedAnswer) {
-                        selectedAnswer = 'Yes';
-                    }
 
                     const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
                     console.log('selectedAnswer:', selectedAnswer);
@@ -105,6 +109,25 @@ function AssessmentPage() {
                         newQuestionIDs.push(nextQuestionsArray[0]);
                         console.log("Next question for Yes:", nextQuestionsArray[0]);
                     } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
+                        newQuestionIDs.push(nextQuestionsArray[1]);
+                        console.log("Next question for No:", nextQuestionsArray[1]);
+                    }
+                    else {
+                        newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
+                    }
+                }
+
+                else if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Ja') && currentQuestion.options.includes('Nein')) {
+                    let selectedAnswer = answers[currentQuestion.questionID];
+
+                    const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
+                    console.log('selectedAnswer:', selectedAnswer);
+                    console.log('nextQuestionsArray:', nextQuestionsArray);
+
+                    if (selectedAnswer === 'Ja' && nextQuestionsArray.length >= 1) {
+                        newQuestionIDs.push(nextQuestionsArray[0]);
+                        console.log("Next question for Yes:", nextQuestionsArray[0]);
+                    } else if (selectedAnswer === 'Nein' && nextQuestionsArray.length >= 1) {
                         newQuestionIDs.push(nextQuestionsArray[1]);
                         console.log("Next question for No:", nextQuestionsArray[1]);
                     }
@@ -346,6 +369,15 @@ function AssessmentPage() {
                 );
 
             case 'Short':
+                return (
+                    <textarea
+                        className='input-4 border-secondary text-secondary w-100'
+                        name={`question-${question.questionID}`}
+                        value={savedAnswer || ''}
+                        onChange={(e) => handleAnswerChange(question.questionID, e.target.value)}
+                    />
+                );
+
             case 'Long Text':
                 return (
                     <textarea
