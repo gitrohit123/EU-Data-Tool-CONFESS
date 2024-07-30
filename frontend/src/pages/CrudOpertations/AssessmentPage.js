@@ -16,6 +16,7 @@ function AssessmentPage() {
     const [questionHistory, setQuestionHistory] = useState([]);
     const [savedOptions, setSavedOptions] = useState([]);
     const [allCurrentQuestions, setAllCurrentQuestions] = useState([]);
+    const [savedPreviousQuestions, setSavedPreviousQuestions] = useState([]);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -189,12 +190,23 @@ function AssessmentPage() {
 
                 if (nextQuestionIndex !== -1) {
                     const nextQuestion = questions[nextQuestionIndex];
+
+                    const savedPrevQuestion = savedPreviousQuestions.find(q => q.id === nextQuestionIndex);
+                    const saveThisIfUndefined = nextQuestion.question;
+
+                    if(savedPrevQuestion === undefined) {
+                        setSavedPreviousQuestions(prevQuestions => [...prevQuestions, { id: nextQuestionIndex, question: saveThisIfUndefined }]);
+                    }
+
                     const allValues = savedque.flatMap(item => item.split('¦').map(s => s.trim()));
                     const uniqueValues = Array.from(new Set(allValues));
                     const combinedSavedque = uniqueValues.map(item => `<li>${item}</li>`).join(' ');
-                    nextQuestion.question = `${nextQuestion.question} ${combinedSavedque}`;
+                    if(savedPrevQuestion === undefined) {
+                        nextQuestion.question = `${nextQuestion.question} ${combinedSavedque}`;
+                    } else {
+                        nextQuestion.question = `${savedPrevQuestion.question} ${combinedSavedque}`;
+                    }
                     setQuestions([...questions]);
-                    setSavedOptions('');
                 }
             }
         }
