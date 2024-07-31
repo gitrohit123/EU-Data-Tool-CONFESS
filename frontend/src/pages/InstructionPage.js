@@ -14,14 +14,14 @@ const translations = {
         startButton: "Start Assessment"
     },
     german: {
-        welcome: "Willkommen zur Prüfung",
+        welcome: "Willkommen zur Assessment",
         instructionsTitle: "Anweisungen für die Bewertung",
         instruction1: "Bitte die Seite nicht aktualisieren.",
         instruction2: "Sie können die Schaltflächen <strong>\"Zurück\"</strong> und <strong>\"Weiter\"</strong> verwenden, um zwischen den Fragen zu navigieren.",
         instruction3: "Während der Bewertung können Sie jederzeit zwischen den verschiedenen Fragen hin- und herwechseln",
         instruction4: "Das Bewertungs-Dashboard wird erstellt, nachdem Sie die Bewertung durch Klicken auf die jeweilige Schaltfläche aktiv abgeschlossen haben",
         cancelButton: "Abbrechen",
-        startButton: "Bewertung starten"
+        startButton: "Assessment starten"
     }
 };
 
