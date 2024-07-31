@@ -192,6 +192,31 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
+// PUT user
+app.put('/api/users/:email', async (req, res) => {
+    const email = req.params.email;
+    const { name, companyName } = req.body;
+
+    try {
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        user.name = name || user.name;
+        user.companyName = companyName || user.companyName;
+
+        await user.save();
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+
+
 app.get('/api/admin', async (req, res) => {
     try {
         const admins = await Admin.find();

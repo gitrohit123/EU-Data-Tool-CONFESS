@@ -43,135 +43,117 @@ function AssessmentPage() {
 
 
     const handleNextQuestion = () => {
-
         const newQuestionIDs = [];
         let addHello = false;
         let savedque = [];
         let shouldProceed = true;
+        const shownAlerts = new Set();
+        const shownNotifications = new Set();
+
         currentQuestionIDs.forEach(id => {
             const currentQuestion = questions.find(q => q.questionID === id);
-            const answer = answers[currentQuestion.questionID] || '';
-            if (
-                currentQuestion &&
-                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
-                currentQuestion.alertText && // Check if alertText key exists
-                (
-                    (currentQuestion.questionType === 'MCQ' && !answer) ||
-                    (currentQuestion.questionType === 'Multiple Select' && (!answer || answer.length === 0)) ||
-                    (currentQuestion.questionType === 'Short' && !answer) ||
-                    (currentQuestion.questionType === 'Long Text' && !answer) ||
-                    (currentQuestion.questionType === 'Numerical Value' && !answer) ||
-                    (currentQuestion.questionType === 'Year' && !answer)
-                )
-            ) {
-                alert(currentQuestion.alertText);
-                shouldProceed = false;
-            }
+            const answer = answers[currentQuestion?.questionID] || '';
 
+            if (currentQuestion) {
+                const shouldAlert = ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
+                    currentQuestion.alertText &&
+                    (
+                        (currentQuestion.questionType === 'MCQ' && !answer) ||
+                        (currentQuestion.questionType === 'Multiple Select' && (!answer || answer.length === 0)) ||
+                        (currentQuestion.questionType === 'Short' && !answer) ||
+                        (currentQuestion.questionType === 'Long Text' && !answer) ||
+                        (currentQuestion.questionType === 'Numerical Value' && !answer) ||
+                        (currentQuestion.questionType === 'Year' && !answer)
+                    );
 
+                const shouldNotify = ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
+                    currentQuestion.notifytext &&
+                    (
+                        (currentQuestion.questionType === 'MCQ' && answer) ||
+                        (currentQuestion.questionType === 'Multiple Select' && answer) ||
+                        (currentQuestion.questionType === 'Short' && answer) ||
+                        (currentQuestion.questionType === 'Long Text' && answer) ||
+                        (currentQuestion.questionType === 'Numerical Value' && answer) ||
+                        (currentQuestion.questionType === 'Year' && answer)
+                    );
 
-            if (
-                currentQuestion &&
-                ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
-                currentQuestion.notifytext &&
-                (
-                    (currentQuestion.questionType === 'MCQ' && answer) ||
-                    (currentQuestion.questionType === 'Multiple Select' && answer) ||
-                    (currentQuestion.questionType === 'Short' && answer) ||
-                    (currentQuestion.questionType === 'Long Text' && answer) ||
-                    (currentQuestion.questionType === 'Numerical Value' && answer) ||
-                    (currentQuestion.questionType === 'Year' && answer)
-                )
-            ) {
-                console.log(currentQuestion.notifytext);
-                toast.info(currentQuestion.notifytext, {
-                    position: 'top-center',
-                    autoClose: 3000,
-                    theme: 'light',
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: false,
-                    progress: undefined,
-                });
-            }
+                if (shouldAlert && !shownAlerts.has(currentQuestion.questionID)) {
+                    alert(currentQuestion.alertText);
+                    shouldProceed = false;
+                    shownAlerts.add(currentQuestion.questionID);
+                }
 
+                if (shouldNotify && !shownNotifications.has(currentQuestion.questionID)) {
+                    console.log(currentQuestion.notifytext);
+                    toast.info(currentQuestion.notifytext, {
+                        position: 'top-center',
+                        autoClose: 3000,
+                        theme: 'light',
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                    });
+                    shownNotifications.add(currentQuestion.questionID);
+                }
 
-            if (currentQuestion && currentQuestion.nextQuestions) {
-                if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
-                    let selectedAnswer = answers[currentQuestion.questionID];
-
+                if (currentQuestion.nextQuestions) {
                     const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
-                    console.log('selectedAnswer:', selectedAnswer);
-                    console.log('nextQuestionsArray:', nextQuestionsArray);
 
-                    if (selectedAnswer === 'Yes' && nextQuestionsArray.length >= 1) {
-                        newQuestionIDs.push(nextQuestionsArray[0]);
-                        console.log("Next question for Yes:", nextQuestionsArray[0]);
-                    } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
-                        newQuestionIDs.push(nextQuestionsArray[1]);
-                        console.log("Next question for No:", nextQuestionsArray[1]);
-                    }
-                    else {
-                        newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
+                    if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
+                        const selectedAnswer = answers[currentQuestion.questionID];
+                        if (selectedAnswer === 'Yes' && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[0]);
+                        } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[1]);
+                        } else {
+                            newQuestionIDs.push(...nextQuestionsArray);
+                        }
+                    } else if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Ja') && currentQuestion.options.includes('Nein')) {
+                        const selectedAnswer = answers[currentQuestion.questionID];
+                        if (selectedAnswer === 'Ja' && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[0]);
+                        } else if (selectedAnswer === 'Nein' && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[1]);
+                        } else {
+                            newQuestionIDs.push(...nextQuestionsArray);
+                        }
+                    } else if (currentQuestion.questionType === 'Input Validation' && currentQuestion.options) {
+                        let givenAnswer = Number(answers[currentQuestion.questionID] || 0);
+                        const startLimit = Number(currentQuestion.options[0]);
+                        const endLimit = Number(currentQuestion.options[1]);
+
+                        if (givenAnswer >= startLimit && givenAnswer < endLimit && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[0]);
+                        } else if (givenAnswer >= endLimit && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[1]);
+                        } else {
+                            shouldProceed = false;
+                            toast.info(`The entered value is invalid! Enter value between ${startLimit} - ${endLimit}`, {
+                                position: 'top-center',
+                                autoClose: 3000,
+                                theme: 'light',
+                                hideProgressBar: true,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: false,
+                                progress: undefined,
+                            });
+                        }
+                    } else {
+                        newQuestionIDs.push(...nextQuestionsArray);
                     }
                 }
 
-                else if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Ja') && currentQuestion.options.includes('Nein')) {
-                    let selectedAnswer = answers[currentQuestion.questionID];
+                const prevQuestion = questions.find(q => q.questionID === id);
+                if (prevQuestion && prevQuestion.questionType === 'Multiple Select') {
+                    addHello = true; // Set flag to true to add Hello to the next question
+                    const savedOptionsForCurrentQuestion = savedOptions[prevQuestion.questionID];
 
-                    const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
-                    console.log('selectedAnswer:', selectedAnswer);
-                    console.log('nextQuestionsArray:', nextQuestionsArray);
-
-                    if (selectedAnswer === 'Ja' && nextQuestionsArray.length >= 1) {
-                        newQuestionIDs.push(nextQuestionsArray[0]);
-                        console.log("Next question for Yes:", nextQuestionsArray[0]);
-                    } else if (selectedAnswer === 'Nein' && nextQuestionsArray.length >= 1) {
-                        newQuestionIDs.push(nextQuestionsArray[1]);
-                        console.log("Next question for No:", nextQuestionsArray[1]);
+                    if (savedOptionsForCurrentQuestion && savedOptionsForCurrentQuestion.length > 0) {
+                        savedque = savedOptionsForCurrentQuestion.map(opt => opt.value1 || opt.value0);
                     }
-                    else {
-                        newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
-                    }
-                }
-
-                else if (currentQuestion.questionType === 'Numerical Value' && currentQuestion.options) {
-                    let GivenAnswer = answers[currentQuestion.questionID];
-
-                    if (!GivenAnswer) {
-                        GivenAnswer = 0;
-                    }
-                    GivenAnswer = Number(GivenAnswer);
-                    const threshold = Number(currentQuestion.options[0]);
-                    console.log(GivenAnswer);
-                    console.log(threshold);
-                    const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
-                    if (GivenAnswer < threshold && nextQuestionsArray.length >= 1) {
-                        newQuestionIDs.push(nextQuestionsArray[0]);
-                        console.log("Lower");
-                    } else if (GivenAnswer >= threshold && nextQuestionsArray.length >= 1) {
-                        newQuestionIDs.push(nextQuestionsArray[1]);
-                        console.log("Higher");
-                    }
-                    else {
-                        newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
-                    }
-
-                }
-                else {
-                    newQuestionIDs.push(...currentQuestion.nextQuestions.split(',').map(q => q.trim()));
-                }
-            }
-
-
-            const prevQuestion = questions.find(q => q.questionID === id);
-            if (prevQuestion && prevQuestion.questionType === 'Multiple Select') {
-                addHello = true; // Set flag to true to add Hello to the next question
-                const savedOptionsForCurrentQuestion = savedOptions[prevQuestion.questionID];
-
-                if (savedOptionsForCurrentQuestion && savedOptionsForCurrentQuestion.length > 0) {
-                    savedque = savedOptionsForCurrentQuestion.map(opt => opt.value1 || opt.value0);
                 }
             }
         });
@@ -179,7 +161,6 @@ function AssessmentPage() {
         if (shouldProceed) { // Only proceed if no alert was shown
             const nextQuestions = newQuestionIDs.map(id => questions.find(q => q.questionID === id));
             setAllCurrentQuestions(prev => [...prev, ...nextQuestions.filter(Boolean)]);
-
             setCurrentQuestionIDs(newQuestionIDs);
             setQuestionHistory(prevHistory => [...prevHistory, newQuestionIDs]);
 
@@ -198,10 +179,10 @@ function AssessmentPage() {
                 }
             }
         }
-
-
-
     };
+
+
+
 
 
     const handlePreviousQuestion = () => {
@@ -403,6 +384,23 @@ function AssessmentPage() {
                         />
                     </div>
                 );
+
+            case 'Input Validation':
+                return (
+                    <div className='numerical'>
+                        <input
+                            type="number"
+                            className='input-4 border-secondary text-secondary w-100'
+                            name={`question-${question.questionID}`}
+                            value={savedAnswer || ''}
+                            onChange={(e) => handleAnswerChange(question.questionID, e.target.value)}
+                        />
+                        {/* <FontAwesomeIcon
+                            icon={faEuroSign}
+                            className='euro-sign'
+                        /> */}
+                    </div>
+                );
             case 'Year':
                 return (
                     <div className='numerical'>
@@ -441,7 +439,8 @@ function AssessmentPage() {
                 <div key={question.questionID} className='question text-start'>
                     <p className='mt-5' dangerouslySetInnerHTML={{ __html: question.question }}></p>
                     {renderQuestionInput(question)}
-                    <p className='mt-3'><i>{question.disclaimer}</i></p>
+                    <p className='mt-5' dangerouslySetInnerHTML={{ __html: question.disclaimer }}></p>
+                    {/* <p className='mt-3'><i>{question.disclaimer}</i></p> */}
                 </div>
             ))}
 

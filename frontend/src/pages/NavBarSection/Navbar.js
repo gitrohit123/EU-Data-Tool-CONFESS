@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoLight from "../../asset/logo_light.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser, faEuroSign, faInfoCircle, faPerson, faUser } from '@fortawesome/free-solid-svg-icons';
 import '../LandingPage.css';
 import './Navbar.css';
 
@@ -72,15 +74,20 @@ const NavSection = () => {
         fetchData();
     }, [fetchUsers, fetchAdmins]);
 
+    const [username, setUsername] = useState('');
+
     useEffect(() => {
         const email = localStorage.getItem('email');
         if (email) {
             const user = users.find(user => user.email === email);
             const admin = admins.find(admin => admin.email === email);
+
             if (user) {
                 setCurrentUser({ ...user, role: 'user' });
+                setUsername(user.name);
             } else if (admin) {
                 setCurrentUser({ ...admin, role: 'admin' });
+                setUsername(admin.name);
             }
         } else {
             navigate('/login');
@@ -110,7 +117,6 @@ const NavSection = () => {
                     <button className="navbar-toggler btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-
                     {/* Toggle menu */}
                     <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                         <div className="offcanvas-header">
@@ -128,12 +134,26 @@ const NavSection = () => {
                                 {!loading && currentUser?.role === 'admin' && <UserLinks />} {/* Show UserLinks only after loading */}
                                 <LanguageSelector changeLanguage={changeLanguage} currentLanguage={currentLanguage} />
                                 <li className="nav-item">
-                                    <a className="dropdown-item logout-btn" onClick={handleLogout}>{currentLanguage === 'english' ? 'Logout' : 'Abmelden'}</a>
+                                    <a className="nav-link" href="/datapolicy">{currentLanguage === 'english' ? 'Data Policy' : 'Datenrichtlinie'}</a>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/landing">{currentLanguage === 'english' ? 'Imprint' : 'Imprint'}</a>
+                                </li>
+                                <li className="nav-item dropdown">
+                                    <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {`${username}`} </a>
+                                    <ul className="dropdown-menu">
+                                        <li className="nav-item">
+                                            <a className="dropdown-item" href="/profile">Settings</a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className="dropdown-item logout-btn" onClick={handleLogout}>{currentLanguage === 'english' ? 'Logout' : 'Abmelden'}</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>
                     </div>
-
                     {/* Normal menu */}
                     <div className="d-none d-lg-block">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -146,12 +166,27 @@ const NavSection = () => {
                             {!loading && currentUser?.role === 'admin' && <UserLinks />} {/* Show UserLinks only after loading */}
                             <LanguageSelector changeLanguage={changeLanguage} currentLanguage={currentLanguage} />
                             <li className="nav-item">
-                                <a className="dropdown-item logout-btn" onClick={handleLogout}>{currentLanguage === 'english' ? 'Logout' : 'Abmelden'}</a>
+                                <a className="nav-link" href="/datapolicy">{currentLanguage === 'english' ? 'Data Policy' : 'Datenrichtlinie'}</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="/landing">{currentLanguage === 'english' ? 'Imprint' : 'Imprint'}</a>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {`${username}`} </a>
+                                <ul className="dropdown-menu">
+                                    <li className="nav-item">
+                                        <a className="dropdown-item" href="/profile">Settings</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="dropdown-item logout-btn" onClick={handleLogout}>{currentLanguage === 'english' ? 'Logout' : 'Abmelden'}</a>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
-                </div>
-            </nav>
+                </div >
+            </nav >
         </>
     );
 };

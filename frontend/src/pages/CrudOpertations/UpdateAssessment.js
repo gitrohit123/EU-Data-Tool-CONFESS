@@ -297,7 +297,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
             disclaimer: name6,
             alertText: name7,
             notifytext: name8,
-            options: questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Numerical Value" ? options : [],
+            options: questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Input Validation" ? options : [],
             examName: examDetails.examName,
             examCategory: examDetails.examCategory
         };
@@ -332,7 +332,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     };
 
 
-    const canAddOption = (questionType === "MCQ" && options.length < 4) || (questionType === "Multiple Select" && options.length < 10) || (questionType === "Numerical Value" && options.length < 1);
+    const canAddOption = (questionType === "MCQ" && options.length < 4) || (questionType === "Multiple Select" && options.length < 10) || (questionType === "Input Validation" && options.length < 2);
 
     return (
         <section className='add-question-main'>
@@ -361,6 +361,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                             <option value="MCQ">MCQ</option>
                             <option value="Short">Short</option>
                             <option value="Long Text">Long Text</option>
+                            <option value="Input Validation">Input Validation</option>
                             <option value="Numerical Value">Numerical Value</option>
                             <option value="Multiple Select">Multiple Select</option>
                             <option value="Year">Fiscal Year</option>
@@ -421,7 +422,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         </button>}
                     </div>
 
-                    {(questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Numerical Value") && (
+                    {(questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Input Validation") && (
                         <div className='msq-options'>
                             {options.map((option, index) => (
                                 <div className='d-flex m-1' key={index}>
