@@ -13,7 +13,7 @@ function Answers() {
 
     useEffect(() => {
         if (_id) {
-            fetch(`https://confess-data-tool-backend-beta.vercel.app/api/results/${examName}/${examCategory}/answers?_id=${_id}`)
+            fetch(`https://-beta.vercel.app/api/results/${examName}/${examCategory}/answers?_id=${_id}`)
                 .then(response => response.json())
                 .then(data => setQuestionAnswers(data))
                 .catch(error => console.error('Error fetching answers:', error));

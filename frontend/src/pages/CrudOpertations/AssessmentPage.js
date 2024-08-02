@@ -16,6 +16,7 @@ function AssessmentPage() {
     const [questionHistory, setQuestionHistory] = useState([]);
     const [savedOptions, setSavedOptions] = useState([]);
     const [allCurrentQuestions, setAllCurrentQuestions] = useState([]);
+    const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('language') || 'english');
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -66,15 +67,26 @@ function AssessmentPage() {
                         (currentQuestion.questionType === 'Year' && !answer)
                     );
 
-                const shouldNotify = ['MCQ', 'Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
+                const shouldNotify = ['Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
                     currentQuestion.notifytext &&
                     (
-                        (currentQuestion.questionType === 'MCQ' && answer) ||
+                        // (currentQuestion.questionType === 'MCQ' && answer) ||
                         (currentQuestion.questionType === 'Multiple Select' && answer) ||
                         (currentQuestion.questionType === 'Short' && answer) ||
                         (currentQuestion.questionType === 'Long Text' && answer) ||
                         (currentQuestion.questionType === 'Numerical Value' && answer) ||
                         (currentQuestion.questionType === 'Year' && answer)
+                    );
+
+                const shouldNotifyNot = ['Multiple Select', 'Short', 'Long Text', 'Numerical Value', 'Year'].includes(currentQuestion.questionType) &&
+                    currentQuestion.notifynottext &&
+                    (
+                        // (currentQuestion.questionType === 'MCQ' && !answer) ||
+                        (currentQuestion.questionType === 'Multiple Select' && !answer) ||
+                        (currentQuestion.questionType === 'Short' && !answer) ||
+                        (currentQuestion.questionType === 'Long Text' && !answer) ||
+                        (currentQuestion.questionType === 'Numerical Value' && !answer) ||
+                        (currentQuestion.questionType === 'Year' && !answer)
                     );
 
                 if (shouldAlert && !shownAlerts.has(currentQuestion.questionID)) {
@@ -98,15 +110,62 @@ function AssessmentPage() {
                     shownNotifications.add(currentQuestion.questionID);
                 }
 
+                if (shouldNotifyNot && !shownNotifications.has(currentQuestion.questionID)) {
+                    console.log(currentQuestion.notifytext);
+                    toast.info(currentQuestion.notifynottext, {
+                        position: 'top-center',
+                        autoClose: 3000,
+                        theme: 'light',
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                    });
+                    shownNotifications.add(currentQuestion.questionID);
+                }
+
+
+
                 if (currentQuestion.nextQuestions) {
                     const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
 
                     if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
                         const selectedAnswer = answers[currentQuestion.questionID];
+
                         if (selectedAnswer === 'Yes' && nextQuestionsArray.length >= 1) {
                             newQuestionIDs.push(nextQuestionsArray[0]);
+
+                            if (currentQuestion.notifytext && !shownNotifications.has(currentQuestion.questionID)) { // Check if notifytext has been shown
+                                toast.info(currentQuestion.notifytext, {
+                                    position: 'top-center',
+                                    autoClose: 3000,
+                                    theme: 'light',
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: false,
+                                    progress: undefined,
+                                });
+                                shownNotifications.add(currentQuestion.questionID); // Add to shownNotifications
+                            }
                         } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
                             newQuestionIDs.push(nextQuestionsArray[1]);
+
+
+                            if (currentQuestion.notifynottext && !shownNotifications.has(currentQuestion.questionID)) { // Check if notifynottext has been shown
+                                toast.info(currentQuestion.notifynottext, {
+                                    position: 'top-center',
+                                    autoClose: 3000,
+                                    theme: 'light',
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: false,
+                                    progress: undefined,
+                                });
+                                shownNotifications.add(currentQuestion.questionID); // Add to shownNotifications
+                            }
                         } else {
                             newQuestionIDs.push(...nextQuestionsArray);
                         }
@@ -119,7 +178,18 @@ function AssessmentPage() {
                         } else {
                             newQuestionIDs.push(...nextQuestionsArray);
                         }
-                    } else if (currentQuestion.questionType === 'Input Validation' && currentQuestion.options) {
+                    } else if (currentQuestion.questionType === 'Short' || currentQuestion.questionType === 'Long Text') {
+                        const answered = answers[currentQuestion?.questionID] || '';
+                        if (answered && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[0]);
+                        } else if (!answered && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(nextQuestionsArray[1]);
+                        } else {
+                            newQuestionIDs.push(...nextQuestionsArray);
+                        }
+                    }
+
+                    else if (currentQuestion.questionType === 'Input Validation' && currentQuestion.options) {
                         let givenAnswer = Number(answers[currentQuestion.questionID] || 0);
                         const startLimit = Number(currentQuestion.options[0]);
                         const endLimit = Number(currentQuestion.options[1]);
@@ -302,6 +372,7 @@ function AssessmentPage() {
     };
 
 
+
     const renderQuestionInput = (question) => {
         const savedAnswer = answers[question.questionID];
         switch (question.questionType) {
@@ -429,6 +500,16 @@ function AssessmentPage() {
     const excludedCategories = ['Turnover', 'Capex', 'OpEx', 'Blank'];
     const currentCategory = currentQuestions[0]?.questionCategory;
 
+
+    const changeLanguage = (language) => {
+        if (currentLanguage !== language) {
+            localStorage.setItem('language', language);
+            setCurrentLanguage(language);
+            window.location.reload(); // Force reload to apply language changes
+        }
+    };
+
+
     return (
         <div className='assessment-page container mt-5 py-5'>
             <h4>{examName}</h4>
@@ -455,21 +536,22 @@ function AssessmentPage() {
                         }
                     }}
                 >
-                    {questionHistory.length <= 1 ? 'Cancel' : 'Previous'}
+                    {questionHistory.length <= 1 ? (currentLanguage === 'english' ? 'Cancel' : 'Abbrechen') : (currentLanguage === 'english' ? 'Previous' : 'Zurück')}
                 </button>
                 {isLastQuestion ? (
                     <button
                         className='btn-cancel'
                         onClick={saveResults}
                     >
-                        Submit
+                        {currentLanguage === 'english' ? 'Submit ' : 'Absenden'}
                     </button>
                 ) : (
                     <button
                         className='btn-cancel'
                         onClick={handleNextQuestion}
                     >
-                        Next
+                        {currentLanguage === 'english' ? 'Next' : 'Weiter'}
+
                     </button>
                 )}
             </div>

@@ -102,6 +102,7 @@ const Assessment = mongoose.model('Assessment', new mongoose.Schema({
             disclaimer: String,
             alertText: String,
             notifytext: String,
+            notifynottext: String,
             options: [String]
         }
     ]
@@ -353,7 +354,7 @@ app.put('/api/assessments/:id', async (req, res) => {
 // POST route to add a new question to an assessment
 app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
     const { assessmentId } = req.params;
-    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options } = req.body;
+    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, notifynottext, options } = req.body;
 
     if (!questionID || !question || !questionType || !questionCategory) {
         return res.status(400).send('Question ID, Question, Question Type, and Question Category are required');
@@ -365,7 +366,7 @@ app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
             return res.status(404).send('Assessment not found');
         }
 
-        const newQuestion = { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options };
+        const newQuestion = { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, notifynottext, options };
         assessment.questions.push(newQuestion);
 
         await assessment.save();
@@ -385,7 +386,7 @@ app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
 // PUT route to update a question in an assessment
 app.put('/api/assessments/:assessmentId/questions/:questionId', async (req, res) => {
     const { assessmentId, questionId } = req.params;
-    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options } = req.body;
+    const { questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, notifynottext, options } = req.body;
 
     if (!questionID || !question || !questionType || !questionCategory) {
         return res.status(400).send('Question ID, Question, Question Type, and Question Category are required');
@@ -402,7 +403,7 @@ app.put('/api/assessments/:assessmentId/questions/:questionId', async (req, res)
             return res.status(404).send('Question not found');
         }
 
-        assessment.questions[questionIndex] = { _id: questionId, questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, options };
+        assessment.questions[questionIndex] = { _id: questionId, questionID, question, questionType, questionCategory, nextQuestions, disclaimer, alertText, notifytext, notifynottext, options };
         await assessment.save();
 
         res.status(200).json({
@@ -660,14 +661,14 @@ app.get('/api/dashboard', async (req, res) => {
 // PUT route to update user financial data
 app.put('/api/users/:id/financial-data', async (req, res) => {
     const { id } = req.params;
-    const { totalTurnover, totalCapex, totalOpex } = req.body;
+    const { totalTurnover, totalCapex, totalOpex, totalActivity } = req.body;
 
-    console.log("Received PUT request with data:", { id, totalTurnover, totalCapex, totalOpex });
+    console.log("Received PUT request with data:", { id, totalTurnover, totalCapex, totalOpex, totalActivity });
 
     try {
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { totalTurnover, totalCapex, totalOpex },
+            { totalTurnover, totalCapex, totalOpex, totalActivity },
             { new: true }
         );
 
