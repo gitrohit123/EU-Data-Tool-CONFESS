@@ -129,7 +129,7 @@ const NavSection = () => {
                                     <a className="dropdown-item" aria-current="page" href="/landing">{currentLanguage === 'english' ? 'Home' : 'Startseite'}</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="dropdown-item" href="/reports">{currentLanguage === 'english' ? 'Dashboard' : 'Armaturenbrett'}</a>
+                                    <a className="dropdown-item" href="/reports">{currentLanguage === 'english' ? 'Dashboard' : 'Dashboard'}</a>
                                 </li>
                                 {!loading && currentUser?.role === 'admin' && <UserLinks />} {/* Show UserLinks only after loading */}
                                 <LanguageSelector changeLanguage={changeLanguage} currentLanguage={currentLanguage} />
@@ -161,7 +161,7 @@ const NavSection = () => {
                                 <a className="nav-link active" aria-current="page" href="/landing">{currentLanguage === 'english' ? 'Home' : 'Startseite'}</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="/reports">{currentLanguage === 'english' ? 'Dashboard' : 'Armaturenbrett'}</a>
+                                <a className="nav-link" href="/reports">{currentLanguage === 'english' ? 'Dashboard' : 'Dashboard'}</a>
                             </li>
                             {!loading && currentUser?.role === 'admin' && <UserLinks />} {/* Show UserLinks only after loading */}
                             <LanguageSelector changeLanguage={changeLanguage} currentLanguage={currentLanguage} />
