@@ -96,7 +96,8 @@ function AssessmentPage() {
                     shownAlerts.add(currentQuestion.questionID);
                 }
 
-                if (shouldNotify && !shownNotifications.has(currentQuestion.questionID)) {
+                // TODO: Add proper assessment logic.
+                /*if (shouldNotify && !shownNotifications.has(currentQuestion.questionID)) {
                     console.log(currentQuestion.notifytext);
                     toast.info(currentQuestion.notifytext, {
                         position: 'top-center',
@@ -124,7 +125,7 @@ function AssessmentPage() {
                         progress: undefined,
                     });
                     shownNotifications.add(currentQuestion.questionID);
-                }
+                }*/
 
 
 
@@ -137,7 +138,8 @@ function AssessmentPage() {
                         if (selectedAnswer === 'Yes' && nextQuestionsArray.length >= 1) {
                             newQuestionIDs.push(nextQuestionsArray[0]);
 
-                            if (currentQuestion.notifytext && !shownNotifications.has(currentQuestion.questionID)) { // Check if notifytext has been shown
+                            // TODO: Add proper assessment logic.
+                            /*if (currentQuestion.notifytext && !shownNotifications.has(currentQuestion.questionID)) { // Check if notifytext has been shown
                                 toast.info(currentQuestion.notifytext, {
                                     position: 'top-center',
                                     autoClose: 3000,
@@ -149,12 +151,11 @@ function AssessmentPage() {
                                     progress: undefined,
                                 });
                                 shownNotifications.add(currentQuestion.questionID); // Add to shownNotifications
-                            }
+                            }*/
                         } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
                             newQuestionIDs.push(nextQuestionsArray[1]);
-
-
-                            if (currentQuestion.notifynottext && !shownNotifications.has(currentQuestion.questionID)) { // Check if notifynottext has been shown
+                            // TODO: Add proper assessment logic.
+                            /*if (currentQuestion.notifynottext && !shownNotifications.has(currentQuestion.questionID)) { // Check if notifynottext has been shown
                                 toast.info(currentQuestion.notifynottext, {
                                     position: 'top-center',
                                     autoClose: 3000,
@@ -166,7 +167,7 @@ function AssessmentPage() {
                                     progress: undefined,
                                 });
                                 shownNotifications.add(currentQuestion.questionID); // Add to shownNotifications
-                            }
+                            }*/
                         } else {
                             newQuestionIDs.push(...nextQuestionsArray);
                         }
@@ -368,7 +369,7 @@ function AssessmentPage() {
             });
 
             if (response.ok) {
-                alert("Your answers are submitted");
+                alert(currentLanguage === 'english' ? 'Your answers are submitted' : 'Die Antworten wurden eingereicht');
                 navigate('/landing');
             } else {
                 const errorData = await response.json();

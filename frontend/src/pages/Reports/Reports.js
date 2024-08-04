@@ -121,7 +121,7 @@ function Reports() {
     const NotEligibleturnoverAnswers = FineaNotEligible.map(item =>
         item.answers.find(answer => answer.questionCategory === 'Turnover')
     ).map(answer => answer ? parseFloat(answer.answer[0]) : 0);
-    const NotEligibleTurnover = NotEligibleturnoverAnswers.reduce((acc, val) => acc + val, 0);
+    const NotEligibleTurnover = users.totalTurnover - AlignedTurnover - NotAlignedTurnover;
 
 
     const AlignedcapexAnswers = FinalAligned.map(item =>
@@ -139,7 +139,7 @@ function Reports() {
     const NotEligiblecapexAnswers = FineaNotEligible.map(item =>
         item.answers.find(answer => answer.questionCategory === 'CapEx')
     ).map(answer => answer ? parseFloat(answer.answer[0]) : 0);
-    const NotEligibleCapEx = NotEligiblecapexAnswers.reduce((acc, val) => acc + val, 0);
+    const NotEligibleCapEx = users.totalCapex - AlignedCapEx - NotAlignedCapEx;
 
 
     const AlignedopexAnswers = FinalAligned.map(item =>
@@ -156,7 +156,7 @@ function Reports() {
     const NotEligibleopexAnswers = FineaNotEligible.map(item =>
         item.answers.find(answer => answer.questionCategory === 'OpEx')
     ).map(answer => answer ? parseFloat(answer.answer[0]) : 0);
-    const NotEligibleOpEx = NotEligibleopexAnswers.reduce((acc, val) => acc + val, 0);
+    const NotEligibleOpEx = users.totalOpex - AlignedOpEx - NotAlignedOpEx;
 
 
     const ChartDetails = [
@@ -165,28 +165,32 @@ function Reports() {
             topic: currentLanguage === 'english' ? "EU Taxonomy alignment for Clean Energy Activities" : "EU-Taxonomie-Ausrichtung für saubere Energieaktivitäten",
             alignedValue: AlignedTurnover,
             notAlignedButEligibleValue: NotAlignedTurnover,
-            notEligibleValue: NotEligibleTurnover
+            notEligibleValue: NotEligibleTurnover,
+            showCurrency: true,
         },
         {
             title: currentLanguage === 'english' ? "CapEx" : "CapEx (Investitionskosten)",
             topic: currentLanguage === 'english' ? "EU Taxonomy alignment for Clean Energy Activities" : "EU-Taxonomie-Ausrichtung für saubere Energieaktivitäten",
             alignedValue: AlignedCapEx,
             notAlignedButEligibleValue: NotAlignedCapEx,
-            notEligibleValue: NotEligibleCapEx
+            notEligibleValue: NotEligibleCapEx,
+            showCurrency: true,
         },
         {
             title: currentLanguage === 'english' ? "OpEx" : "OpEx (Betriebskosten)",
             topic: currentLanguage === 'english' ? "EU Taxonomy alignment for Clean Energy Activities" : "EU-Taxonomie-Ausrichtung für saubere Energieaktivitäten",
             alignedValue: AlignedOpEx,
             notAlignedButEligibleValue: NotAlignedOpEx,
-            notEligibleValue: NotEligibleOpEx
+            notEligibleValue: NotEligibleOpEx,
+            showCurrency: true,
         },
         {
             title: currentLanguage === 'english' ? "# of Activities" : "# der Aktivitäten",
             topic: currentLanguage === 'english' ? "EU Taxonomy alignment for Clean Energy Activities" : "EU-Taxonomie-Ausrichtung für saubere Energieaktivitäten",
             alignedValue: FinalAligned.length,
             notAlignedButEligibleValue: FinalNotAligned.length,
-            notEligibleValue: FineaNotEligible.length
+            notEligibleValue: users.totalActivity - FinalAligned.length - FinalNotAligned.length,
+            showCurrency: false,
         }
     ];
 
@@ -205,7 +209,7 @@ function Reports() {
                         </p>
                         <p className="card-title mt-3">{currentLanguage === 'english' ? 'Total Number of Activities:' : 'Anzahl aller Unternehmensaktivitäten:'} <span>{users.totalActivity}</span></p>
                         <p className="mt-3">
-                            {currentLanguage === 'english' ? 'Total Turnover: ' : 'Umsatz (gesamt)): '}{users.totalTurnover} € <br />
+                            {currentLanguage === 'english' ? 'Total Turnover: ' : 'Umsatz (gesamt): '}{users.totalTurnover} € <br />
                             {currentLanguage === 'english' ? 'Total CapEx: ' : 'CapEx (gesamt): '}{users.totalCapex} € <br />
                             {currentLanguage === 'english' ? 'Total OpEx: ' : 'OpEx (gesamt): '}{users.totalOpex} €
                         </p>
@@ -225,9 +229,9 @@ function Reports() {
 
                         return (
                             <div key={index} className='card-main'>
-                                <div className="card card-stats mt-5">
+                                <div className="card card-stats">
                                     <div className="card-body text-start">
-                                        <h3>{value.title}</h3>
+                                        <h4>{value.title}</h4>
                                         <p className="card-title">{value.topic}</p>
 
                                         <div className="circle m-4">
@@ -240,16 +244,16 @@ function Reports() {
 
                                         <div className='row d-flex flex-column justify-content-between align-items-center'>
                                             <div className='col d-flex justify-content-between'>
-                                                <p> <span className='green-dot'></span>{currentLanguage === 'english' ? 'Aligned' : 'Taxonomiekonform'}</p>
-                                                <p>{value.alignedValue} € ({alignedPercentage.toFixed(1)}%)</p>
+                                                <p><span className='green-dot'></span>{currentLanguage === 'english' ? 'Aligned' : 'Taxonomiekonform'}</p>
+                                                <p>{value.alignedValue} {value.showCurrency ? '€' : ''} ({alignedPercentage.toFixed(1)}%)</p>
                                             </div>
                                             <div className='col d-flex justify-content-between'>
-                                                <p><span className='grey-dot'></span> {currentLanguage === 'english' ? 'Not aligned but eligible' : 'Taxonomiefähig'}</p>
-                                                <p>{value.notAlignedButEligibleValue} € ({notAlignedButEligiblePercentage.toFixed(1)}%)</p>
+                                                <p><span className='grey-dot'></span>{currentLanguage === 'english' ? 'Not aligned but eligible' : 'Taxonomiefähig'}</p>
+                                                <p>{value.notAlignedButEligibleValue} {value.showCurrency ? '€' : ''} ({notAlignedButEligiblePercentage.toFixed(1)}%)</p>
                                             </div>
                                             <div className='col d-flex justify-content-between'>
                                                 <p><span className='dark-dot'></span>{currentLanguage === 'english' ? 'Not eligible' : 'Nicht Taxonomiefähig'}</p>
-                                                <p>{value.notEligibleValue} € ({notEligiblePercentage.toFixed(1)}%)</p>
+                                                <p>{value.notEligibleValue} {value.showCurrency ? '€' : ''} ({notEligiblePercentage.toFixed(1)}%)</p>
                                             </div>
                                         </div>
                                     </div>
@@ -314,7 +318,7 @@ const DashboardPop = ({ setDashopop, users, setResults, setreloaddash }) => {
 
     useEffect(() => {
         if (users) {
-            setTurnover(users.totalTurnover);
+            setTurnover(users.totalTurnover);            
             setCapex(users.totalCapex);
             setOpex(users.totalOpex);
             setactivity(users.totalActivity);
@@ -651,16 +655,6 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
 
     return (
         <section>
-            <div className='mt-5'>
-                <h5 className='text-start'>Filter with Fiscal year</h5>
-                <select className="form-select select-year" aria-label="Default select example" onChange={handleFiscalYearChange} value={selectedFiscalYear}>
-                    <option value="All">All</option>
-                    {getUniqueFiscalYears().map((year, idx) => (
-                        <option key={idx} value={year}>{year}</option>
-                    ))}
-                </select>
-            </div>
-
             {updateValues().map((value, index) => {
                 const filteredAnswers = Array.isArray(value?.answers) ? value.answers.filter(answer => answer.questionType !== "Blank") : [];
                 const SubstentialContribution = filteredAnswers.filter(answer => answer.questionCategory === 'Substantial Contribution');
@@ -715,23 +709,23 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                         <p className="mx-3 mt-4">{currentLanguage === 'english' ? 'Do No Significant Harm' : 'Keine wesentlichen Schäden'}</p>
                         <div className='d-flex mx-3 mt-2 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Climate Change Adaptation' : 'Klimawandel-Anpassung'}</p>
-                            <span className={DNSHAdaption.length > 0 ? (AllDNSHAdaption ? 'darkgrey-dot mx-4' : 'darkgrey-dot mx-4') : 'darkgrey-dot mx-4'}></span>
+                            <span className={DNSHAdaption.length > 0 ? (AllDNSHAdaption ? 'darkgrey-dot mx-4' : 'darkgrey-dot mx-4') : 'darkgreen-dot mx-4'}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Water and Marine Protection' : 'Wasser- und Meeresschutz'}</p>
-                            <span className={DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgrey-dot mx-4'}></span>
+                            <span className={DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Circular Economy' : 'Kreislaufwirtschaft'}</p>
-                            <span className={DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgrey-dot mx-4'}></span>
+                            <span className={DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Pollution Prevention' : 'Verschmutzungsprävention'}</p>
-                            <span className={DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgrey-dot mx-4'}></span>
+                            <span className={DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Biodiversity' : 'Biodiversität'}</p>
-                            <span className={DNSHbiodibersity.length > 0 ? (AllDNSHbiodibersity ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgrey-dot mx-4'}></span>
+                            <span className={DNSHbiodibersity.length > 0 ? (AllDNSHbiodibersity ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
                         </div>
                     </div>
                 );

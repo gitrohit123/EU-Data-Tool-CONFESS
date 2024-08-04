@@ -5,7 +5,7 @@
 .section-card {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 40px;
     justify-content: center;
     align-items: center;
 }
@@ -17,8 +17,14 @@
     gap: 10px;
 }
 
+.card-header:first-child {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
 .card-reports {
     border-radius: 20px;
+    margin-bottom: 40px;
 }
 
 .card-stats {
@@ -89,7 +95,6 @@
     border-radius: 50%;
     margin-right: 10px;
 }
-
 
 .orange-dot {
     background-color: #FC7C54;
