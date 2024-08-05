@@ -184,7 +184,7 @@ function AssessmentPage() {
                         const answered = answers[currentQuestion?.questionID] || '';
                         if (answered && nextQuestionsArray.length >= 1) {
                             newQuestionIDs.push(nextQuestionsArray[0]);
-                        } else if (!answered && nextQuestionsArray.length >= 1) {
+                        } else if (!answered && nextQuestionsArray.length > 1) {
                             newQuestionIDs.push(nextQuestionsArray[1]);
                         } else {
                             newQuestionIDs.push(...nextQuestionsArray);
@@ -230,6 +230,7 @@ function AssessmentPage() {
             }
         });
 
+        console.log(shouldProceed);
         if (shouldProceed) { // Only proceed if no alert was shown
             const nextQuestions = newQuestionIDs.map(id => questions.find(q => q.questionID === id));
             setAllCurrentQuestions(prev => [...prev, ...nextQuestions.filter(Boolean)]);

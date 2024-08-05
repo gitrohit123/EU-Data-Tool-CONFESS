@@ -613,8 +613,11 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
             const AllDNSHpollution = DNSHpollution.length > 0 && DNSHpollution.every(answer =>
                 answer.answer.every(ans => ans.trim() !== "")
             );
-            const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer =>
-                answer.answer.every(ans => ans.trim() !== "")
+            const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer => 
+                Array.isArray(answer.answer) && answer.answer.every(ans => {
+                    const trimmedAns = ans.trim().toLowerCase();
+                    return trimmedAns !== "no" && trimmedAns !== "nein";
+                })
             );
             const AllTurnover = Turnover.length > 0 && Turnover.every(answer =>
                 answer.answer.every(ans => ans.trim() !== "")
@@ -682,8 +685,11 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const AllDNSHpollution = DNSHpollution.length > 0 && DNSHpollution.every(answer =>
                     answer.answer.every(ans => ans.trim() !== "")
                 );
-                const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer =>
-                    answer.answer.every(ans => ans.trim() !== "")
+                const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer => 
+                    Array.isArray(answer.answer) && answer.answer.every(ans => {
+                        const trimmedAns = ans.trim().toLowerCase();
+                        return trimmedAns !== "no" && trimmedAns !== "nein";
+                    })
                 );
                 const AnyDNSH = DNSHAdaption.length > 0 || DNSHce.length > 0 || DNSHwater.length > 0 || DNSHpollution.length > 0 || DNSHbiodiversity.length > 0;
 
@@ -697,7 +703,7 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                     answer.answer.every(ans => ans.trim() !== "")
                 );
                 // Adaptation is always grey because we cannot automatically check text answers
-                const adaptationStatus = AnyDNSH ? (DNSHAdaption.length > 0 ? 'darkgrey-dot mx-4' : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
+                const adaptationStatus = 'darkgrey-dot mx-4';
                 const waterStatus = AnyDNSH ? (DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
                 const ceStatus = AnyDNSH ? (DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
                 const pollutionStatus = AnyDNSH ? (DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
