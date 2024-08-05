@@ -593,7 +593,7 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
             const DNSHce = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - CE');
             const DNSHwater = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Water');
             const DNSHpollution = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Pollution');
-            const DNSHbiodibersity = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Biodiversity');
+            const DNSHbiodiversity = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Biodiversity');
             const Turnover = filteredAnswers.filter(answer => answer.questionCategory === 'Turnover');
             const Capex = filteredAnswers.filter(answer => answer.questionCategory === 'CapEx');
             const OpEx = filteredAnswers.filter(answer => answer.questionCategory === 'OpEx');
@@ -613,7 +613,7 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
             const AllDNSHpollution = DNSHpollution.length > 0 && DNSHpollution.every(answer =>
                 answer.answer.every(ans => ans.trim() !== "")
             );
-            const AllDNSHbiodibersity = DNSHbiodibersity.length > 0 && DNSHbiodibersity.every(answer =>
+            const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer =>
                 answer.answer.every(ans => ans.trim() !== "")
             );
             const AllTurnover = Turnover.length > 0 && Turnover.every(answer =>
@@ -631,7 +631,7 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot' : 'orange-dot') : 'darkgrey-dot',
                 DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot' : 'orange-dot') : 'darkgrey-dot',
                 DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot' : 'darkgreen-dot') : 'darkgrey-dot',
-                DNSHbiodibersity.length > 0 ? (AllDNSHbiodibersity ? 'darkgreen-dot' : 'darkgreen-dot') : 'darkgrey-dot',
+                DNSHbiodiversity.length > 0 ? (AllDNSHbiodiversity ? 'darkgreen-dot' : 'darkgreen-dot') : 'darkgrey-dot',
                 Turnover.length > 0 ? (AllTurnover ? 'darkgreen-dot' : 'orange-dot') : 'darkgrey-dot',
                 Capex.length > 0 ? (AllCapex ? 'darkgreen-dot' : 'orange-dot') : 'darkgrey-dot',
                 OpEx.length > 0 ? (AllOpEx ? 'darkgreen-dot' : 'orange-dot') : 'darkgrey-dot',
@@ -662,7 +662,7 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const DNSHce = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - CE');
                 const DNSHwater = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Water');
                 const DNSHpollution = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Pollution');
-                const DNSHbiodibersity = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Biodiversity');
+                const DNSHbiodiversity = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Biodiversity');
                 const Turnover = filteredAnswers.filter(answer => answer.questionCategory === 'Turnover');
                 const Capex = filteredAnswers.filter(answer => answer.questionCategory === 'CapEx');
                 const OpEx = filteredAnswers.filter(answer => answer.questionCategory === 'OpEx');
@@ -682,9 +682,11 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const AllDNSHpollution = DNSHpollution.length > 0 && DNSHpollution.every(answer =>
                     answer.answer.every(ans => ans.trim() !== "")
                 );
-                const AllDNSHbiodibersity = DNSHbiodibersity.length > 0 && DNSHbiodibersity.every(answer =>
+                const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer =>
                     answer.answer.every(ans => ans.trim() !== "")
                 );
+                const AnyDNSH = DNSHAdaption.length > 0 || DNSHce.length > 0 || DNSHwater.length > 0 || DNSHpollution.length > 0 || DNSHbiodiversity.length > 0;
+
                 const AllTurnover = Turnover.length > 0 && Turnover.every(answer =>
                     answer.answer.every(ans => ans.trim() !== "")
                 );
@@ -694,7 +696,13 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const AllOpEx = OpEx.length > 0 && OpEx.every(answer =>
                     answer.answer.every(ans => ans.trim() !== "")
                 );
-
+                // Adaptation is always grey because we cannot automatically check text answers
+                const adaptationStatus = AnyDNSH ? (DNSHAdaption.length > 0 ? 'darkgrey-dot mx-4' : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
+                const waterStatus = AnyDNSH ? (DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
+                const ceStatus = AnyDNSH ? (DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
+                const pollutionStatus = AnyDNSH ? (DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
+                const biodiversityStatus = AnyDNSH ? (DNSHbiodiversity.length > 0 ? (AllDNSHbiodiversity ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
+                
                 return (
                     <div key={value._id} className="card card-reports mt-5 text-start">
                         <div className="card-header">
@@ -709,23 +717,23 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                         <p className="mx-3 mt-4">{currentLanguage === 'english' ? 'Do No Significant Harm' : 'Keine wesentlichen Schäden'}</p>
                         <div className='d-flex mx-3 mt-2 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Climate Change Adaptation' : 'Klimawandel-Anpassung'}</p>
-                            <span className={DNSHAdaption.length > 0 ? (AllDNSHAdaption ? 'darkgrey-dot mx-4' : 'darkgrey-dot mx-4') : 'darkgreen-dot mx-4'}></span>
+                            <span className={adaptationStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Water and Marine Protection' : 'Wasser- und Meeresschutz'}</p>
-                            <span className={DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
+                            <span className={waterStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Circular Economy' : 'Kreislaufwirtschaft'}</p>
-                            <span className={DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
+                            <span className={ceStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Pollution Prevention' : 'Verschmutzungsprävention'}</p>
-                            <span className={DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
+                            <span className={pollutionStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
                             <p>{currentLanguage === 'english' ? 'Biodiversity' : 'Biodiversität'}</p>
-                            <span className={DNSHbiodibersity.length > 0 ? (AllDNSHbiodibersity ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4'}></span>
+                            <span className={biodiversityStatus}></span>
                         </div>
                     </div>
                 );

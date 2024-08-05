@@ -32,7 +32,8 @@ const Content = ({ currentLanguage }) => {
         { title: 'Self-Assessment', text: 'Use the self-assessment to familiarize yourself with the requirements of the EU taxonomy for your economic activities and to get an initial overview of the potential taxonomy alignment of your activities.', btnClass: 'btn-1', link: '/login' },
         { title: 'Expert Check', text: 'Our experts check your statements in the self-assessment and verify the taxonomy alignment of your activities based on additional documents you upload as proof of your statements.', btnClass: 'btn-5', link: '#' },
         { title: '3rd Party Verification', text: 'An independent third party checks your statements in the self-assessment and verifies the taxonomy alignment of your activities based on additional documents you upload as proof of your statements.', btnClass: 'btn-5', link: '#' }
-      ]
+      ],
+      button: 'Choose Option'
     },
     german: {
       heading: 'Willkommen beim EU-Datentool',
@@ -46,11 +47,12 @@ const Content = ({ currentLanguage }) => {
         { title: 'Selbsteinschätzung', text: 'Nutzen Sie das Self-Assessment, um sich mit den Anforderungen der EU-Taxonomie für Ihre Wirtschaftsaktivitäten vertraut zu machen und sich einen ersten Überblick über die mögliche Taxonomieausrichtung Ihrer Aktivitäten zu verschaffen.', btnClass: 'btn-1', link: '/login' },
         { title: 'Expertencheck', text: 'Unsere Experten prüfen Ihre Aussagen im Self-Assessment und verifizieren die Taxonomie-Ausrichtung Ihrer Aktivitäten anhand zusätzlicher Dokumente, die Sie als Nachweis Ihrer Aussagen hochladen.', btnClass: 'btn-5', link: '#' },
         { title: 'Verifizierung durch Dritte', text: 'Ein unabhängiger Dritter prüft Ihre Aussagen im Self-Assessment und verifiziert die Taxonomie-Ausrichtung Ihrer Aktivitäten anhand zusätzlicher Dokumente, die Sie als Nachweis Ihrer Aussagen hochladen.', btnClass: 'btn-5', link: '#' }
-      ]
+      ],
+      button: 'Auswählen'
     }
   };
 
-  const { heading, paragraphs, cards } = content[currentLanguage];
+  const { heading, paragraphs, cards, button } = content[currentLanguage];
 
   return (
     <>
@@ -64,7 +66,7 @@ const Content = ({ currentLanguage }) => {
             <div className="card-body d-flex flex-column justify-content-between align-items-center">
               <h5 className="card-title fs-5 text-start">{card.title}</h5>
               <p className="card-text mt-4 text-start">{card.text}</p>
-              <a href={card.link} className={card.btnClass}>Choose Option</a>
+              <a href={card.link} className={card.btnClass}>{button}</a>
             </div>
           </div>
         ))}
