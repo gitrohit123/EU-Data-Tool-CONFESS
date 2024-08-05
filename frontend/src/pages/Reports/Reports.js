@@ -226,6 +226,11 @@ function Reports() {
                         const notAlignedButEligiblePercentage = (value.notAlignedButEligibleValue / total) * 100;
                         const notEligiblePercentage = (value.notEligibleValue / total) * 100;
 
+                        console.log(alignedPercentage);
+
+                        console.log(alignedPercentage + notAlignedButEligiblePercentage);
+
+                        console.log(alignedPercentage + notAlignedButEligiblePercentage);
 
                         return (
                             <div key={index} className='card-main'>
@@ -237,7 +242,7 @@ function Reports() {
                                         <div className="circle m-4">
                                             <div className="circle-progress"
                                                 style={{
-                                                    background: `conic-gradient(#6CC784 0% ${alignedPercentage}%,  #394D2C ${alignedPercentage}% ${alignedPercentage + notAlignedButEligiblePercentage}%, #C4C4C4 ${alignedPercentage + notAlignedButEligiblePercentage}% 100%)`
+                                                    background: `conic-gradient(#6CC784 0% ${alignedPercentage}%,  #C4C4C4 ${alignedPercentage}% ${alignedPercentage + notAlignedButEligiblePercentage}%, #394D2C ${alignedPercentage + notAlignedButEligiblePercentage}% 100%)`
                                                 }}>
                                             </div>
                                         </div>
