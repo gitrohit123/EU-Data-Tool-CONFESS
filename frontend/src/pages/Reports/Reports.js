@@ -226,11 +226,6 @@ function Reports() {
                         const notAlignedButEligiblePercentage = (value.notAlignedButEligibleValue / total) * 100;
                         const notEligiblePercentage = (value.notEligibleValue / total) * 100;
 
-                        console.log(alignedPercentage);
-
-                        console.log(alignedPercentage + notAlignedButEligiblePercentage);
-
-                        console.log(alignedPercentage + notAlignedButEligiblePercentage);
 
                         return (
                             <div key={index} className='card-main'>
