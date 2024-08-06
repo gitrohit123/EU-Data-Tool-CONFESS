@@ -253,6 +253,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     const [name1, setName1] = useState(editingQuestion ? editingQuestion.questionID : '');
     const [name2, setName2] = useState(editingQuestion ? editingQuestion.question : '');
     const [name5, setName5] = useState(editingQuestion ? editingQuestion.nextQuestions : '');
+    const [nextQIfSkipped, setNextQIfSkipped] = useState(editingQuestion ? editingQuestion.nextQIfSkipped : '');
     const [name6, setName6] = useState(editingQuestion ? editingQuestion.disclaimer : '');
     const [name7, setName7] = useState(editingQuestion ? editingQuestion.alertText : '');
     const [name8, setName8] = useState(editingQuestion ? editingQuestion.notifytext : '');
@@ -295,6 +296,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
             questionType,
             questionCategory,
             nextQuestions: name5,
+            nextQIfSkipped,
             disclaimer: name6,
             alertText: name7,
             notifytext: name8,
@@ -398,6 +400,16 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                             <FontAwesomeIcon className='input-close-icons' icon={faCircleXmark} />
                         </button>}
                     </div>
+
+                    {(questionType === "Multiple Select") && (
+                        <div className={`input-wraps ${nextQIfSkipped ? 'has-values' : ''}`}>
+                            <input type='text' className='input-5' value={nextQIfSkipped} onChange={(e) => setNextQIfSkipped(e.target.value)} />
+                            <label>Next question if no option was selected</label>
+                            {nextQIfSkipped && <button type="button" className="clear-buttons" onClick={clearInput(setNextQIfSkipped)}>
+                                <FontAwesomeIcon className='input-close-icons' icon={faCircleXmark} />
+                            </button>}
+                        </div>
+                    )}
 
                     <div className={`input-wraps ${name6 ? 'has-values' : ''}`}>
                         <input type='text' className='input-5' value={name6} onChange={(e) => setName6(e.target.value)} />
