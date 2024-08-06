@@ -213,6 +213,9 @@ function AssessmentPage() {
                                 progress: undefined,
                             });
                         }
+                    } else if (currentQuestion.questionType === 'Multiple Select' && currentQuestion.nextQIfSkipped && answers[currentQuestion.questionID].length === 0) {
+                        const nextQIfSkippedArray = currentQuestion.nextQIfSkipped.split(',').map(q => q.trim());
+                        newQuestionIDs.push(...nextQIfSkippedArray);
                     } else {
                         newQuestionIDs.push(...nextQuestionsArray);
                     }
@@ -230,7 +233,6 @@ function AssessmentPage() {
             }
         });
 
-        console.log(shouldProceed);
         if (shouldProceed) { // Only proceed if no alert was shown
             const nextQuestions = newQuestionIDs.map(id => questions.find(q => q.questionID === id));
             setAllCurrentQuestions(prev => [...prev, ...nextQuestions.filter(Boolean)]);
