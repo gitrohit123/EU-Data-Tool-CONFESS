@@ -6,6 +6,27 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons/faCircleXmark';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const translations = {
+    english: {
+        username: "User Name",
+        companyName: "Company Name",
+        password: "Password",
+        email: "Email Address",
+        alreadyRegistered: "Already Registered? Go to login page.",
+        signup: "Signup",
+        failed: "Registration failed",
+    },
+    german: {
+        username: "Benutzername",
+        companyName: "Firmenname",
+        password: "Passwort",
+        email: "E-Mail Adresse",
+        alreadyRegistered: "Bereits registriert? Gehen Sie zur Login-Seite.",
+        signup: "Registrieren",
+        failed: "Registrierung ist fehlgeschlagen",
+    }
+};
+
 function SignupPage() {
     const [name, setName] = useState('');
     const [companyName, setCompanyName] = useState('');
@@ -13,6 +34,8 @@ function SignupPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('language') || 'english');
+    const lang = translations[currentLanguage];
 
     const clearInput1 = () => setName('');
     const clearInput2 = () => setCompanyName('');
@@ -39,7 +62,7 @@ function SignupPage() {
             setPassword('');
             navigate('/login'); // Redirect to login page after successful registration
         } catch (error) {
-            setError(error.response ? error.response.data : 'Registration failed');
+            setError(error.response ? error.response.data : lang.failed);
         }
     };
 
@@ -62,7 +85,7 @@ function SignupPage() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
-                            <label>User Name</label>
+                            <label>{lang.username}</label>
                             {name && <button type="button" className="clear-button" onClick={clearInput1}>
                                 <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                             </button>}
@@ -74,7 +97,7 @@ function SignupPage() {
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
                             />
-                            <label>Company Name</label>
+                            <label>{lang.companyName}</label>
                             {companyName && <button type="button" className="clear-button" onClick={clearInput2}>
                                 <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                             </button>}
@@ -86,7 +109,7 @@ function SignupPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            <label>Email Address</label>
+                            <label>{lang.email}</label>
                             {email && <button type="button" className="clear-button" onClick={clearInput3}>
                                 <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                             </button>}
@@ -98,15 +121,15 @@ function SignupPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <label>Password</label>
+                            <label>{lang.password}</label>
                             {password && <button type="button" className="clear-button" onClick={clearInput4}>
                                 <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                             </button>}
                         </div>
                         <div className='d-flex justify-content-center'>
-                            <button type='submit' className='btn-signup'>Signup</button>
+                            <button type='submit' className='btn-signup'>{lang.signup}</button>
                         </div>
-                        <p className='fw-light' style={{ cursor: 'pointer' }} onClick={GotoLoginPage}>Already Registered? Go to login page.</p>
+                        <p className='fw-light' style={{ cursor: 'pointer' }} onClick={GotoLoginPage}>{lang.alreadyRegistered}</p>
                     </form>
                 </section>
             </div>

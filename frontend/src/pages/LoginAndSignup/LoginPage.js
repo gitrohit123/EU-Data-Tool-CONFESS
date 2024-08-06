@@ -6,10 +6,29 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons/faCircleXmark';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const translations = {
+    english: {
+        loginError: "Login failed",
+        notRegistered: "Not Registered? Go to signup page",
+        password: "Password",
+        email: "Email Address",
+        login: "Login",
+    },
+    german: {
+        loginError: "Login ist fehlgeschlagen",
+        notRegistered: "Nicht registriert? Zur Anmeldeseite gehen",
+        password: "Passwort",
+        email: "E-Mail Adresse",
+        login: "Login",
+    }
+};
+
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('language') || 'english');
+    const lang = translations[currentLanguage];
 
     const clearInput2 = () => setEmail('');
     const clearInput3 = () => setPassword('');
@@ -28,7 +47,7 @@ function LoginPage() {
             localStorage.setItem('email', email);
             navigate('/landing');
         } catch (error) {
-            setError(error.response ? error.response.data : 'Login failed');
+            setError(error.response ? error.response.data : lang.loginError);
         }
     };
 
@@ -51,7 +70,7 @@ function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            <label>Email Address</label>
+                            <label>{lang.email}</label>
                             {email && <button type="button" className="clear-button" onClick={clearInput2}>
                                 <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                             </button>}
@@ -63,15 +82,15 @@ function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <label>Password</label>
+                            <label>{lang.password}</label>
                             {password && <button type="button" className="clear-button" onClick={clearInput3}>
                                 <FontAwesomeIcon className='input-close-icon' icon={faCircleXmark} />
                             </button>}
                         </div>
                         <div className='d-flex justify-content-center'>
-                            <button type='submit' className='btn-signup'>Login</button>
+                            <button type='submit' className='btn-signup'>{lang.login}</button>
                         </div>
-                        <p className='fw-light' style={{ cursor: 'pointer' }} onClick={GotoSignupPage}>Not Registered? Go to signup page</p>
+                        <p className='fw-light' style={{ cursor: 'pointer' }} onClick={GotoSignupPage}>{lang.notRegistered}</p>
                     </form>
                 </section>
             </div>
