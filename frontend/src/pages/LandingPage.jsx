@@ -9,13 +9,15 @@ const translations = {
         title: "Selection of Activities",
         description: "From this list of activity types, please select the activity type to which the activity you like to check for taxonomy alignment matches. Once you have finished performing an activity assessment, you will be taken back to this page so that you can subsequently complete other activities of the same or a different type. The evaluation of the taxonomy alignment of your activities can be found in the Dashboard section. As soon as you complete the assessment for a new activity, the dashboard is automatically updated.",
         startButton: "Start Evaluation",
-        category: "Category:"
+        category: "Category:",
+        allCategories: "All",
     },
     german: {
         title: "Auswahl von Aktivitäten",
         description: "Wählen Sie aus dieser Liste von Aktivitätstypen den Typ der Aktivität aus, den Sie auf Taxonomieübereinstimmung überprüfen möchten. Nachdem Sie eine Aktivitätseinschätzung abgeschlossen haben, werden Sie zu dieser Seite zurückgebracht, damit Sie anschließend andere Aktivitäten desselben oder eines anderen Typs abschließen können. Die Bewertung der Taxonomieübereinstimmung Ihrer Aktivitäten finden Sie im Dashboard-Bereich. Sobald Sie die Bewertung für eine neue Aktivität abgeschlossen haben, wird das Dashboard automatisch aktualisiert.",
         startButton: "Bewertung starten",
-        category: "Kategorie:"
+        category: "Kategorie:",
+        allCategories: "Alle",
     }
 };
 
@@ -85,7 +87,7 @@ const LandingPage = () => {
                             className={`nav-button ${selectedCategory === category ? 'active' : ''}`}
                             onClick={() => setSelectedCategory(category)}
                         >
-                            {category}
+                            {category === "All" ? lang.allCategories : category}
                         </button>
                     ))}
                 </div>
