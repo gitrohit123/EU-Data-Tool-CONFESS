@@ -246,7 +246,7 @@ function AssessmentPage() {
                                 progress: undefined,
                             });
                         }
-                    } else if (currentQuestion.questionType === 'Multiple Select' && currentQuestion.nextQIfSkipped && answers[currentQuestion.questionID].length === 0) {
+                    } else if (currentQuestion.questionType === 'Multiple Select' && currentQuestion.nextQIfSkipped && (!answers[currentQuestion.questionID] || answers[currentQuestion.questionID].length === 0)) {
                         const nextQIfSkippedArray = currentQuestion.nextQIfSkipped.split(',').map(q => q.trim());
                         newQuestionIDs.push(...nextQIfSkippedArray);
                     } else {
