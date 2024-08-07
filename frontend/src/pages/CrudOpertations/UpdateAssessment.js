@@ -301,7 +301,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
             alertText: name7,
             notifytext: name8,
             notifynottext: name9,
-            options: questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Input Validation" ? options : [],
+            options: questionType === "MCQ" || questionType === "MCQ-AfterMultiple" || questionType === "Multiple Select" || questionType === "Input Validation" ? options : [],
             examName: examDetails.examName,
             examCategory: examDetails.examCategory
         };
@@ -336,7 +336,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     };
 
 
-    const canAddOption = (questionType === "MCQ" && options.length < 4) || (questionType === "Multiple Select" && options.length < 10) || (questionType === "Input Validation" && options.length < 2);
+    const canAddOption = (questionType === "MCQ" && options.length < 4) || (questionType === "MCQ-AfterMultiple" && options.length < 2) || (questionType === "Multiple Select" && options.length < 10) || (questionType === "Input Validation" && options.length < 2);
 
     return (
         <section className='add-question-main'>
@@ -363,6 +363,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         <select className='input-3' value={questionType} onChange={(e) => setQuestionType(e.target.value)}>
                             <option className='d-none' value=""></option>
                             <option value="MCQ">MCQ</option>
+                            <option value="MCQ-AfterMultiple">MCQ-AfterMultiple</option>
                             <option value="Short">Short</option>
                             <option value="Long Text">Long Text</option>
                             <option value="Input Validation">Input Validation</option>
@@ -444,7 +445,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         </button>}
                     </div>
 
-                    {(questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Input Validation") && (
+                    {(questionType === "MCQ" || questionType === "Multiple Select" || questionType === "Input Validation" || questionType === "MCQ-AfterMultiple") && (
                         <div className='msq-options'>
                             {options.map((option, index) => (
                                 <div className='d-flex m-1' key={index}>

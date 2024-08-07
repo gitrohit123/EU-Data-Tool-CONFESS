@@ -131,6 +131,7 @@ function AssessmentPage() {
 
                 if (currentQuestion.nextQuestions) {
                     const nextQuestionsArray = currentQuestion.nextQuestions.split(',').map(q => q.trim());
+                    const nextOptionQuestionsArray = currentQuestion.nextQuestions.split('+').map(q => q.trim());
 
                     if (currentQuestion.questionType === 'MCQ' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
                         const selectedAnswer = answers[currentQuestion.questionID];
@@ -180,7 +181,20 @@ function AssessmentPage() {
                         } else {
                             newQuestionIDs.push(...nextQuestionsArray);
                         }
-                    } else if (currentQuestion.questionType === 'Short' || currentQuestion.questionType === 'Long Text') {
+                    } else if (currentQuestion.questionType === 'MCQ-AfterMultiple' && currentQuestion.options.includes('Yes') && currentQuestion.options.includes('No')) {
+                        const selectedAnswer = answers[currentQuestion.questionID];
+                        const value0 = nextOptionQuestionsArray[0].split(',').map(q => q.trim());
+                        const value1 = nextOptionQuestionsArray[1].split(',').map(q => q.trim());
+
+                        if (selectedAnswer === 'Yes' && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(...value0);
+                        } else if (selectedAnswer === 'No' && nextQuestionsArray.length >= 1) {
+                            newQuestionIDs.push(...value1);
+                        } else {
+                            newQuestionIDs.push(...nextQuestionsArray);
+                        }
+                    } 
+                    else if (currentQuestion.questionType === 'Short' || currentQuestion.questionType === 'Long Text') {
                         const answered = answers[currentQuestion?.questionID] || '';
                         if (answered && nextQuestionsArray.length >= 1) {
                             newQuestionIDs.push(nextQuestionsArray[0]);
@@ -390,6 +404,24 @@ function AssessmentPage() {
         const savedAnswer = answers[question.questionID];
         switch (question.questionType) {
             case 'MCQ':
+                return (
+                    <>
+                        {question.options.filter(option => option).map((option, index) => (
+                            <div key={index} className='fs-6'>
+                                <input
+                                    type="radio"
+                                    className='m-1 form-check-input'
+                                    name={`question-${question.questionID}`}
+                                    value={option}
+                                    checked={savedAnswer === option}
+                                    onChange={() => handleAnswerChange(question.questionID, option)}
+                                />
+                                {option}
+                            </div>
+                        ))}
+                    </>
+                );
+                case 'MCQ-AfterMultiple':
                 return (
                     <>
                         {question.options.filter(option => option).map((option, index) => (
