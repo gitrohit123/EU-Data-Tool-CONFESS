@@ -15,7 +15,7 @@ const translations = {
     german: {
         title: "Auswahl von Aktivitäten",
         description: "Wählen Sie aus dieser Liste von Aktivitätstypen den Typ der Aktivität aus, den Sie auf Taxonomieübereinstimmung überprüfen möchten. Nachdem Sie eine Aktivitätseinschätzung abgeschlossen haben, werden Sie zu dieser Seite zurückgebracht, damit Sie anschließend andere Aktivitäten desselben oder eines anderen Typs abschließen können. Die Bewertung der Taxonomieübereinstimmung Ihrer Aktivitäten finden Sie im Dashboard-Bereich. Sobald Sie die Bewertung für eine neue Aktivität abgeschlossen haben, wird das Dashboard automatisch aktualisiert.",
-        startButton: "Bewertung starten",
+        startButton: "Assessment starten",
         category: "Kategorie:",
         allCategories: "Alle",
     }
@@ -94,7 +94,24 @@ const LandingPage = () => {
 
                 {/* Assessments cards */}
                 <div className='cards-main'>
-                    {categoryFilteredAssessments.map((assessment) => {
+                    {categoryFilteredAssessments.sort((a, b) => {
+                        // Need to parse exam names because 4.25 should be after 4.3
+                        const parseName = (title) => {
+                            const match = title.match(/^(\d+)\.(\d+)/);
+                            if (match) {
+                            return [parseInt(match[1]), parseInt(match[2])];
+                            }
+                            return [0, 0];
+                        };
+
+                        const [a1, a2] = parseName(a.examName);
+                        const [b1, b2] = parseName(b.examName);
+
+                        if (a1 === b1) {
+                            return a2 - b2;
+                        }
+                        return a1 - b1;
+                        }).map((assessment) => {
 
                         return (
                             <div className="card" key={assessment._id}>

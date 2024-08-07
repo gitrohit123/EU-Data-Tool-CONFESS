@@ -6,6 +6,25 @@ import { faEuroSign, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const translations = {
+    english: {
+        "Substantial Contribution": "Substantial Contribution to Climate Change Mitigation",
+        "DNSH Climate Change Adaptation": "DNSH: Climate Change Adaptation",
+        "DNSH - Biodiversity": "DNSH: Biodiversity",
+        "DNSH - Water": "DNSH: Water and Marine Protection",
+        "DNSH Circular Economy": "DNSH: Circular Economy",
+        "DNSH - Pollution": "DNSH: Pollution Prevention",
+    },
+    german: {
+        "Substantial Contribution": "Wesentlicher Beitrag zum Klimaschutz",
+        "DNSH - Adaptation": "DNSH: Anpassung an den Klimawandel",
+        "DNSH - Biodiversity": "DNSH: Biodiversität",
+        "DNSH - Water": "DNSH: Wasser- und Meeresschutz",
+        "DNSH - CE": "DNSH: Kreislaufwirtschaft",
+        "DNSH - Pollution": "DNSH: Verschmutzungsprävention",
+    }
+};
+
 function AssessmentPage() {
     const { state } = useLocation();
     const { examName, examCategory } = state || {};
@@ -542,7 +561,7 @@ function AssessmentPage() {
     };
 
     const isLastQuestion = currentQuestions.some(question => question.nextQuestions === 'end');
-    const excludedCategories = ['Turnover', 'Capex', 'OpEx', 'Blank'];
+    const excludedCategories = ['Turnover', 'Capex', 'OpEx', 'Blank', 'Fiscal Year'];
     const currentCategory = currentQuestions[0]?.questionCategory;
 
 
@@ -554,11 +573,12 @@ function AssessmentPage() {
         }
     };
 
+    const translatedCategory = translations[currentLanguage][currentCategory] || currentCategory;
 
     return (
         <div className='assessment-page container mt-5 py-5'>
             <h4>{examName}</h4>
-            {excludedCategories.includes(currentCategory) ? '' : <h4 className='container bg-secondary text-white p-2' style={{ borderRadius: "10px 10px 0px 0px" }}>{currentCategory}</h4>}
+            {excludedCategories.includes(currentCategory) ? '' : <h4 className='container bg-secondary text-white p-2' style={{ borderRadius: "10px 10px 0px 0px" }}>{translatedCategory}</h4>}
 
 
             {currentQuestions.map(question => (

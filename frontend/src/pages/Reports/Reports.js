@@ -702,13 +702,13 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const AllOpEx = OpEx.length > 0 && OpEx.every(answer =>
                     answer.answer.every(ans => ans.trim() !== "")
                 );
-                // Adaptation is always grey because we cannot automatically check text answers
-                const adaptationStatus = 'darkgrey-dot mx-4';
+                // Adaptation is grey if filled out because we cannot automatically check text answers
+                const adaptationStatus = AnyDNSH ? (DNSHAdaption.length > 0 ? (AllDNSHAdaption ? 'darkgrey-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
                 const waterStatus = AnyDNSH ? (DNSHwater.length > 0 ? (AllDNSHwater ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
                 const ceStatus = AnyDNSH ? (DNSHce.length > 0 ? (AllDNSHce ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
                 const pollutionStatus = AnyDNSH ? (DNSHpollution.length > 0 ? (AllDNSHpollution ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
                 const biodiversityStatus = AnyDNSH ? (DNSHbiodiversity.length > 0 ? (AllDNSHbiodiversity ? 'darkgreen-dot mx-4' : 'orange-dot mx-4') : 'darkgreen-dot mx-4') : 'darkgrey-dot mx-4';
-                
+
                 return (
                     <div key={value._id} className="card card-reports mt-5 text-start">
                         <div className="card-header">
