@@ -40,13 +40,13 @@ const Content = ({ currentLanguage }) => {
       paragraphs: [
         'Unser Ziel ist es, (insbesondere kleinere) Unternehmen bei ihrer Nachhaltigkeitsberichterstattung auf Basis der EU-Taxonomie zu unterstützen.',
         'Die EU-Taxonomie bietet einen standardisierten Rahmen für die Klassifizierung ökologisch nachhaltiger Wirtschaftsaktivitäten und soll dazu beitragen, Kapitalströme in solche nachhaltigen Wirtschaftsaktivitäten zu lenken.',
-        'Unser Tool bietet Ihnen die Möglichkeit, sich einen ersten Überblick über die Taxonomiekonformität Ihrer Aktivitäten zu verschaffen und sich gleichzeitig mit den Anforderungen der EU-Taxonomie vertraut zu machen. Darüber hinaus bietet das Tool eine detaillierte Auswertung Ihrer Daten und auf Wunsch eine Überprüfung durch unsere Experten oder unabhängige Dritte.',
+        'Unser Tool bietet Ihnen die Möglichkeit, sich einen ersten Überblick über die Taxonomiekonformität Ihrer Aktivitäten zu verschaffen und sich gleichzeitig mit den Anforderungen der EU-Taxonomie vertraut zu machen. Darüber hinaus bietet das Tool eine detaillierte Auswertung Ihrer Daten und auf Wunsch eine Überprüfung durch unsere Experten oder eine unabhängige Zertifizierungsstelle.',
         'Wenn Sie neu in der Taxonomie-Berichterstattung sind, empfehlen wir, mit der Selbstbewertung zu beginnen. Sie können jederzeit auf die anderen Optionen upgraden.'
       ],
       cards: [
-        { title: 'Selbsteinschätzung', text: 'Nutzen Sie das Self-Assessment, um sich mit den Anforderungen der EU-Taxonomie für Ihre Wirtschaftsaktivitäten vertraut zu machen und sich einen ersten Überblick über die mögliche Taxonomieausrichtung Ihrer Aktivitäten zu verschaffen.', btnClass: 'btn-1', link: '/login' },
+        { title: 'Self-Assessment', text: 'Nutzen Sie das Self-Assessment, um sich mit den Anforderungen der EU-Taxonomie für Ihre Wirtschaftsaktivitäten vertraut zu machen und sich einen ersten Überblick über die mögliche Taxonomieausrichtung Ihrer Aktivitäten zu verschaffen.', btnClass: 'btn-1', link: '/login' },
         { title: 'Expertencheck', text: 'Unsere Experten prüfen Ihre Aussagen im Self-Assessment und verifizieren die Taxonomie-Ausrichtung Ihrer Aktivitäten anhand zusätzlicher Dokumente, die Sie als Nachweis Ihrer Aussagen hochladen.', btnClass: 'btn-5', link: '#' },
-        { title: 'Verifizierung durch Dritte', text: 'Ein unabhängiger Dritter prüft Ihre Aussagen im Self-Assessment und verifiziert die Taxonomie-Ausrichtung Ihrer Aktivitäten anhand zusätzlicher Dokumente, die Sie als Nachweis Ihrer Aussagen hochladen.', btnClass: 'btn-5', link: '#' }
+        { title: 'Verifizierung durch unabhängige Zertifizierungsstelle', text: 'Eine unabhängige Zertifizierungsstelle prüft Ihre Aussagen im Self-Assessment und verifiziert die Taxonomie-Ausrichtung Ihrer Aktivitäten anhand zusätzlicher Dokumente, die Sie als Nachweis Ihrer Aussagen hochladen.', btnClass: 'btn-5', link: '#' }
       ],
       button: 'Auswählen'
     }
