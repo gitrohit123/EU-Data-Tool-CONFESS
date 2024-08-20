@@ -501,6 +501,7 @@ app.post('/api/results/submitresults', async (req, res) => {
                     questionID: answer.questionID,
                     questionCategory: answer.questionCategory,
                     questionType: answer.questionType,
+                    requireForEvaluation: answer.requireForEvaluation,
                     answer: answer.answer ? (answer.answer.includes(';') ? answer.answer.split(';').map(a => a.trim()) : [answer.answer.trim()]) : ''
                 };
             } else {
