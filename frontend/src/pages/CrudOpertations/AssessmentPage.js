@@ -9,10 +9,10 @@ import 'react-toastify/dist/ReactToastify.css';
 const translations = {
     english: {
         "Substantial Contribution": "Substantial Contribution to Climate Change Mitigation",
-        "DNSH Climate Change Adaptation": "DNSH: Climate Change Adaptation",
+        "DNSH - Adaptation": "DNSH: Climate Change Adaptation",
         "DNSH - Biodiversity": "DNSH: Biodiversity",
         "DNSH - Water": "DNSH: Water and Marine Protection",
-        "DNSH Circular Economy": "DNSH: Circular Economy",
+        "DNSH - CE": "DNSH: Circular Economy",
         "DNSH - Pollution": "DNSH: Pollution Prevention",
     },
     german: {
