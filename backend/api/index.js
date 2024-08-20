@@ -129,6 +129,7 @@ const resultSchema = new mongoose.Schema({
         questionCategory: String,
         questionType: String,
         answer: [String],
+        requireForEvaluation: Boolean,
         isCorrect: Boolean
     }],
     score: Number,
