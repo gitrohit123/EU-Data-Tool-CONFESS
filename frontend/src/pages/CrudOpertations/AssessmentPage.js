@@ -378,11 +378,13 @@ function AssessmentPage() {
                 const currentAnswer = answers[question.questionID];
                 const questionCategory = question.questionCategory;
                 const questionType = question.questionType;
+                const requireForEvaluation = question.requireForEvaluation;
                 // Format the answer appropriately
                 if (Array.isArray(currentAnswer)) {
                     return {
                         questionID: question.questionID,
                         questionCategory,
+                        requireForEvaluation,
                         answer: currentAnswer.length > 0 ? currentAnswer.map(a => `${a.value0},${a.value1}`).join(';') : ''
                     };
                 } else {
@@ -390,6 +392,7 @@ function AssessmentPage() {
                         questionID: question.questionID,
                         questionCategory,
                         questionType,
+                        requireForEvaluation,
                         answer: currentAnswer || ''
                     };
                 }
