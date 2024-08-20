@@ -538,6 +538,29 @@ const DashboardPop = ({ setDashopop, users, setResults, setreloaddash }) => {
 
 
 const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedButEligibleValue, NotEligible }) => {
+    const translations = {
+        english: {
+            substantialContribution: "Substantial Contribution to Climate Change Mitigation",
+            dnsh: "Do No Significant Harm",
+            adaptation: "Climate change adaptation",
+            water: "Sustainable use and protection of water and marine resources",
+            circularEconomy: "Transition to a circular economy",
+            pollution: "Pollution prevention and control",
+            biodiversity: "Protection and restoration of biodiversity and ecosystems",
+        },
+        german: {
+            substantialContribution: "Wesentlicher Beitrag zur Anpassung an den Klimawandel",
+            dnsh: "Vermeidung erheblicher Beeinträchtigungen",
+            adaptation: "Klimaschutz",
+            water: "Nachhaltige Nutzung und Schutz von Wasser- und Meeresressourcen",
+            circularEconomy: "Übergang zu einer Kreislaufwirtschaft",
+            pollution: "Vermeidung und Verminderung der Umweltverschmutzung",
+            biodiversity: "Schutz und Wiederherstellung der Biodiversität und der Ökosysteme",
+        }
+    };
+
+    const criteria = translations[currentLanguage];
+    
     const [selectedFiscalYear, setSelectedFiscalYear] = useState('All');
 
     const handleFiscalYearChange = (event) => {
@@ -717,28 +740,28 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                             </h3>
                         </div>
                         <div className='d-flex mx-3 mt-3 justify-content-between'>
-                            <p>{currentLanguage === 'english' ? 'Substantial Contribution (Climate Change Mitigation)' : 'Substanzielle Beiträge (Klimaschutz)'}</p>
+                            <p>{criteria.substantialContribution}</p>
                             <span className={AllSubstential && AllOpEx && AllCapex & AllTurnover ? 'darkgreen-dot mx-4' : 'darkgrey-dot mx-4'}></span>
                         </div>
-                        <p className="mx-3 mt-4">{currentLanguage === 'english' ? 'Do No Significant Harm' : 'Keine wesentlichen Schäden'}</p>
+                        <p className="mx-3 mt-4">{criteria.dnsh}</p>
                         <div className='d-flex mx-3 mt-2 justify-content-between'>
-                            <p>{currentLanguage === 'english' ? 'Climate Change Adaptation' : 'Klimawandel-Anpassung'}</p>
+                            <p>{criteria.adaptation}</p>
                             <span className={adaptationStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
-                            <p>{currentLanguage === 'english' ? 'Water and Marine Protection' : 'Wasser- und Meeresschutz'}</p>
+                            <p>{criteria.water}</p>
                             <span className={waterStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
-                            <p>{currentLanguage === 'english' ? 'Circular Economy' : 'Kreislaufwirtschaft'}</p>
+                            <p>{criteria.circularEconomy}</p>
                             <span className={ceStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
-                            <p>{currentLanguage === 'english' ? 'Pollution Prevention' : 'Verschmutzungsprävention'}</p>
+                            <p>{criteria.pollution}</p>
                             <span className={pollutionStatus}></span>
                         </div>
                         <div className='d-flex mx-3 justify-content-between'>
-                            <p>{currentLanguage === 'english' ? 'Biodiversity' : 'Biodiversität'}</p>
+                            <p>{criteria.biodiversity}</p>
                             <span className={biodiversityStatus}></span>
                         </div>
                     </div>
