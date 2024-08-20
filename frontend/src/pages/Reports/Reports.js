@@ -685,7 +685,7 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const filteredAnswers = Array.isArray(value?.answers) ? value.answers.filter(answer => answer.questionType !== "Blank") : [];
                 const SubstentialContribution = filteredAnswers.filter(answer => answer.questionCategory === 'Substantial Contribution');
                 const DNSHAdaption = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Adaptation');
-                const DNSHce = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - CE');
+                const DNSHce = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Circular Economy');
                 const DNSHwater = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Water');
                 const DNSHpollution = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Pollution');
                 const DNSHbiodiversity = filteredAnswers.filter(answer => answer.questionCategory === 'DNSH - Biodiversity');
@@ -693,21 +693,19 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
                 const Capex = filteredAnswers.filter(answer => answer.questionCategory === 'CapEx');
                 const OpEx = filteredAnswers.filter(answer => answer.questionCategory === 'OpEx');
 
-                const AllSubstential = SubstentialContribution.length > 0 && SubstentialContribution.every(answer =>
-                    answer.answer.every(ans => ans.trim() !== "")
-                );
-                const AllDNSHAdaption = DNSHAdaption.length > 0 && DNSHAdaption.every(answer =>
-                    answer.answer.every(ans => ans.trim() !== "")
-                );
-                const AllDNSHce = DNSHce.length > 0 && DNSHce.every(answer =>
-                    answer.answer.every(ans => ans.trim() !== "")
-                );
-                const AllDNSHwater = DNSHwater.length > 0 && DNSHwater.every(answer =>
-                    answer.answer.every(ans => ans.trim() !== "")
-                );
-                const AllDNSHpollution = DNSHpollution.length > 0 && DNSHpollution.every(answer =>
-                    answer.answer.every(ans => ans.trim() !== "")
-                );
+                // Helper function to evaluate the answers
+                const evaluateAnswers = (answers) => 
+                    answers.length > 0 && answers.every(answer =>
+                        answer.requireForEvaluation 
+                            ? answer.answer.every(ans => ans.trim() !== "")
+                            : true // Skip non-required answers
+                    );
+                const AllSubstential = evaluateAnswers(SubstentialContribution);
+                const AllDNSHAdaption = evaluateAnswers(DNSHAdaption);
+                const AllDNSHce = evaluateAnswers(DNSHce);
+                const AllDNSHwater = evaluateAnswers(DNSHwater);
+                const AllDNSHpollution = evaluateAnswers(DNSHpollution);
+
                 const AllDNSHbiodiversity = DNSHbiodiversity.length > 0 && DNSHbiodiversity.every(answer => 
                     Array.isArray(answer.answer) && answer.answer.every(ans => {
                         const trimmedAns = ans.trim().toLowerCase();
