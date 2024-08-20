@@ -100,6 +100,7 @@ const Assessment = mongoose.model('Assessment', new mongoose.Schema({
             questionCategory: String,
             nextQuestions: String,
             nextQIfSkipped: String,
+            requireForEvaluation: { type: Boolean, default: true },
             disclaimer: String,
             alertText: String,
             notifytext: String,
@@ -355,7 +356,7 @@ app.put('/api/assessments/:id', async (req, res) => {
 // POST route to add a new question to an assessment
 app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
     const { assessmentId } = req.params;
-    const { questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, disclaimer, alertText, notifytext, notifynottext, options } = req.body;
+    const { questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, requireForEvaluation, disclaimer, alertText, notifytext, notifynottext, options } = req.body;
 
     if (!questionID || !question || !questionType || !questionCategory) {
         return res.status(400).send('Question ID, Question, Question Type, and Question Category are required');
@@ -367,7 +368,7 @@ app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
             return res.status(404).send('Assessment not found');
         }
 
-        const newQuestion = { questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, disclaimer, alertText, notifytext, notifynottext, options };
+        const newQuestion = { questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, requireForEvaluation, disclaimer, alertText, notifytext, notifynottext, options };
         assessment.questions.push(newQuestion);
 
         await assessment.save();
@@ -387,7 +388,7 @@ app.post('/api/assessments/:assessmentId/questions', async (req, res) => {
 // PUT route to update a question in an assessment
 app.put('/api/assessments/:assessmentId/questions/:questionId', async (req, res) => {
     const { assessmentId, questionId } = req.params;
-    const { questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, disclaimer, alertText, notifytext, notifynottext, options } = req.body;
+    const { questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, requireForEvaluation, disclaimer, alertText, notifytext, notifynottext, options } = req.body;
 
     if (!questionID || !question || !questionType || !questionCategory) {
         return res.status(400).send('Question ID, Question, Question Type, and Question Category are required');
@@ -404,7 +405,7 @@ app.put('/api/assessments/:assessmentId/questions/:questionId', async (req, res)
             return res.status(404).send('Question not found');
         }
 
-        assessment.questions[questionIndex] = { _id: questionId, questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, disclaimer, alertText, notifytext, notifynottext, options };
+        assessment.questions[questionIndex] = { _id: questionId, questionID, question, questionType, questionCategory, nextQuestions, nextQIfSkipped, requireForEvaluation, disclaimer, alertText, notifytext, notifynottext, options };
         await assessment.save();
 
         res.status(200).json({

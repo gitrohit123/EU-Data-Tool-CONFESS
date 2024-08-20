@@ -253,6 +253,11 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
     const [name1, setName1] = useState(editingQuestion ? editingQuestion.questionID : '');
     const [name2, setName2] = useState(editingQuestion ? editingQuestion.question : '');
     const [name5, setName5] = useState(editingQuestion ? editingQuestion.nextQuestions : '');
+    const [requireForEvaluation, setRequireForEvaluation] = useState(
+        editingQuestion && editingQuestion.hasOwnProperty('requireForEvaluation')
+            ? editingQuestion.requireForEvaluation
+            : true
+    );
     const [nextQIfSkipped, setNextQIfSkipped] = useState(editingQuestion ? editingQuestion.nextQIfSkipped : '');
     const [name6, setName6] = useState(editingQuestion ? editingQuestion.disclaimer : '');
     const [name7, setName7] = useState(editingQuestion ? editingQuestion.alertText : '');
@@ -297,6 +302,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
             questionCategory,
             nextQuestions: name5,
             nextQIfSkipped,
+            requireForEvaluation,
             disclaimer: name6,
             alertText: name7,
             notifytext: name8,
@@ -394,6 +400,15 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         <label>Question Category <span className='text-danger'>*</span></label>
                     </div>
 
+                    {(questionCategory === "Substantial Contribution" || questionCategory === "DNSH - Adaptation" || questionCategory === "DNSH - Biodiversity" || questionCategory === "DNSH - Water" || questionCategory === "DNSH - Circular Economy" || questionCategory === "DNSH - Pollution") && (
+                        <div className={`${requireForEvaluation ? 'has-values' : ''}`}>
+                            <div className="checkbox-label-wrapper">
+                                <input id="requireForEvaluationCheckbox" type="checkbox" className="form-check-input" checked={requireForEvaluation} onChange={(e) => setRequireForEvaluation(e.target.checked)} />
+                                <label className="checkbox-label" for="requireForEvaluationCheckbox">Require answer for category evaluation</label>
+                            </div>
+                        </div>
+                     )}
+
                     <div className={`input-wraps ${name5 ? 'has-values' : ''}`}>
                         <input type='text' className='input-5' value={name5} onChange={(e) => setName5(e.target.value)} />
                         <label>Next Question</label>
@@ -411,7 +426,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                             </button>}
                         </div>
                     )}
-
+                    
                     <div className={`input-wraps ${name6 ? 'has-values' : ''}`}>
                         <input type='text' className='input-5' value={name6} onChange={(e) => setName6(e.target.value)} />
                         <label>Add Disclaimers</label>
