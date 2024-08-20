@@ -400,7 +400,7 @@ const AddQuestion = ({ setQuestionPop, addQuestion, updateQuestion, editingQuest
                         <label>Question Category <span className='text-danger'>*</span></label>
                     </div>
 
-                    {(questionCategory === "Substantial Contribution" || questionCategory === "DNSH - Adaptation" || questionCategory === "DNSH - Biodiversity" || questionCategory === "DNSH - Water" || questionCategory === "DNSH - Circular Economy" || questionCategory === "DNSH - Pollution") && (questionType === "Multiple Select") && (
+                    {(questionCategory === "Substantial Contribution" || questionCategory === "DNSH - Adaptation" || questionCategory === "DNSH - Biodiversity" || questionCategory === "DNSH - Water" || questionCategory === "DNSH - Circular Economy" || questionCategory === "DNSH - Pollution") && (questionType === "Long Text") && (
                         <div className={`${requireForEvaluation ? 'has-values' : ''}`}>
                             <div className="checkbox-label-wrapper">
                                 <input id="requireForEvaluationCheckbox" type="checkbox" className="form-check-input" checked={requireForEvaluation} onChange={(e) => setRequireForEvaluation(e.target.checked)} />
