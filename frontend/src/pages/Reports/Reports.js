@@ -549,9 +549,9 @@ const DashActivity = ({ DashResult, currentLanguage, alignedValue, notAlignedBut
             biodiversity: "Protection and restoration of biodiversity and ecosystems",
         },
         german: {
-            substantialContribution: "Wesentlicher Beitrag zur Anpassung an den Klimawandel",
+            substantialContribution: "Wesentlicher Beitrag zum Klimaschutz",
             dnsh: "Vermeidung erheblicher Beeinträchtigungen",
-            adaptation: "Klimaschutz",
+            adaptation: "Anpassung an den Klimawandel",
             water: "Nachhaltige Nutzung und Schutz von Wasser- und Meeresressourcen",
             circularEconomy: "Übergang zu einer Kreislaufwirtschaft",
             pollution: "Vermeidung und Verminderung der Umweltverschmutzung",
